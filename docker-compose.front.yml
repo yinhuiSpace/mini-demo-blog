@@ -1,0 +1,40 @@
+version: '3'
+services:
+  nginx1:
+    restart: always
+    container_name: nginx1
+    image: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx1/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx1/logs:/var/log/nginx
+      - ./nginx1/html:/usr/share/nginx/html
+    environment:
+      - NGINX_PORT=80
+      - TZ=Asia/Shanghai
+    networks:
+      - default
+      - mynetwork
+
+  nginx2:
+    restart: always
+    container_name: nginx2
+    image: nginx
+    ports:
+      - "180:80"
+      - "543:443"
+    volumes:
+      - ./nginx2/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx2/logs:/var/log/nginx
+      - ./nginx2/html:/usr/share/nginx/html
+    environment:
+      - NGINX_PORT=80
+      - TZ=Asia/Shanghai
+    networks:
+      - default
+      - mynetwork
+networks:
+  mynetwork:
+    external: true

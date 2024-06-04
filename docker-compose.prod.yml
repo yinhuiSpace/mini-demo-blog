@@ -1,0 +1,24 @@
+version: '3'
+services:
+  gateway:
+    build: ./gateway-service
+    container_name: gateway-service
+    ports:
+      - "15000:15000"
+    networks:
+      - default
+      - mynetwork
+
+  blog:
+    build: ./blog-service/blog-server
+    container_name: blog-service
+    ports:
+      - "15100:15100"
+    networks:
+      - default
+      - mynetwork
+
+
+networks:
+  mynetwork:
+    external: true

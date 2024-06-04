@@ -17,6 +17,10 @@
         <module>common/common-db</module>
         <module>gateway-service</module>
         <module>common/common-tool</module>
+        <module>user-service</module>
+        <module>user-service/user-server</module>
+        <module>auth-service</module>
+        <module>auth-service/auth-server</module>
     </modules>
 
     <properties>
