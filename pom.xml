@@ -21,6 +21,9 @@
         <module>user-service/user-server</module>
         <module>auth-service</module>
         <module>auth-service/auth-server</module>
+        <module>comment-service</module>
+        <module>comment-service/comment-server</module>
+        <module>user-service/user-client</module>
     </modules>
 
     <properties>

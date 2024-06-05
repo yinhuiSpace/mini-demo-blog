@@ -4,6 +4,7 @@ package com.mito.common.enums;
 public enum RestResultEnum {
 
     SUCCESS(200, "操作成功"),
+    INVALID_PARAM(400, "非法参数"),
     NEED_LOGIN(401, "需要登录后操作"),
     NO_OPERATOR(403, "无操作权限"),
     SYSTEM_ERROR(500, "系统发生错误"),

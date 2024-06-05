@@ -1,9 +1,6 @@
-package com.mito.user.pojo.po;
+package com.mito.client.pojo.po;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -22,7 +19,6 @@ import java.sql.Timestamp;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("tb_sys_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -30,7 +26,6 @@ public class User implements Serializable {
     /**
      * id
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
     /**
@@ -101,7 +96,6 @@ public class User implements Serializable {
     /**
      * 0=未删除1=已删除
      */
-    @TableLogic
     private Integer delFlag;
 
 

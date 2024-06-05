@@ -18,6 +18,15 @@ services:
       - default
       - mynetwork
 
+  auth:
+    build: ./auth-service/auth-server
+    container_name: auth-service
+    ports:
+      - "15300:15200"
+    networks:
+      - default
+      - mynetwork
+
 
 networks:
   mynetwork:

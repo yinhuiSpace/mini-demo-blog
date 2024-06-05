@@ -4,6 +4,7 @@ import com.mito.auth.exception.SystemException;
 import com.mito.auth.service.UserLogoutService;
 import com.mito.common.enums.RestResultEnum;
 import com.mito.common.result.RestResult;
+import com.mito.common.utils.SecurityContextUtil;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.util.StringUtils;
@@ -20,9 +21,9 @@ public class UserLogoutController {
 
 
     @PostMapping("/logout")
-    public Object logout(HttpServletRequest request){
+    public Object logout(){
 
-        String userId = request.getHeader("userId");
+        String userId = SecurityContextUtil.getUserId();
         if (!StringUtils.hasText(userId)){
             throw new SystemException(RestResultEnum.NEED_LOGIN);
         }
