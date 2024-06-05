@@ -49,6 +49,13 @@ public class JwtUtils {
         return ((JSONObject) JWT.of(token).getPayload("data")).toBean(requiredType);
     }
 
+    public static Object parse(String token,String key){
+
+        JWT jwt = JWT.of(token);
+        Object value = jwt.getPayload(key);
+
+        return value;
+    }
     /**
      * 校验令牌的有效性
      */

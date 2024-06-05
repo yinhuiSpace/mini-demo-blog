@@ -60,4 +60,14 @@ public class RestResult<T> {
                 .build();
     }
 
+    public static <T> RestResult<T> fail(String message,Integer code){
+
+        return RestResult
+                .<T>builder()
+                .isSuccess(false)
+                .code(code)
+                .message(message)
+                .build();
+    }
+
 }
