@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mito.client.UserClient;
 import com.mito.client.pojo.po.User;
+import com.mito.comment.constants.CommentConstants;
 import com.mito.comment.exception.SystemException;
 import com.mito.comment.pojo.po.Comment;
 import com.mito.comment.mapper.CommentMapper;
@@ -42,12 +43,14 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     UserClient userClient;
 
     @Override
-    public CommentListVo commentList(Integer pageNum, Integer pageSize, Long articleId) {
+    public CommentListVo commentList(String commentType,Integer pageNum, Integer pageSize, Long articleId) {
 
         //根据文章id，分页查询所有根评论
         LambdaQueryWrapper<Comment> wrapper = new LambdaQueryWrapper<>();
+        //评论类型
+        wrapper.eq(Comment::getType,commentType);
         //文章id
-        wrapper.eq(Comment::getArticleId,articleId);
+        wrapper.eq(CommentConstants.TYPE_ARTICLE.equals(commentType),Comment::getArticleId,articleId);
         //根评论id为-1
         wrapper.eq(Comment::getRootId,-1);
         //分页查询

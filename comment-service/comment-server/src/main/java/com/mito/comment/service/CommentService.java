@@ -18,7 +18,7 @@ import java.util.List;
 public interface CommentService extends IService<Comment> {
 
 
-    CommentListVo commentList(Integer pageNum, Integer pageSize, Long articleId);
+    CommentListVo commentList(String commentType,Integer pageNum, Integer pageSize, Long articleId);
 
     void addComment(Comment comment);
 }

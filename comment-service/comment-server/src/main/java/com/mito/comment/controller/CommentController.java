@@ -32,7 +32,7 @@ public class CommentController {
             @RequestParam("articleId")Long articleId
     ) {
 
-        return RestResult.ok().setContent(commentService.commentList(pageNum,pageSize,articleId));
+        return RestResult.ok().setContent(commentService.commentList("0",pageNum,pageSize,articleId));
     }
 
     @PostMapping
@@ -41,5 +41,12 @@ public class CommentController {
         commentService.addComment(comment);
 
         return RestResult.ok();
+    }
+
+    @GetMapping("/linkCommentList")
+    public Object linkCommentList(@RequestParam("pageNum")Integer pageNum,
+                                  @RequestParam("pageSize") Integer pageSize){
+
+        return RestResult.ok().setContent(commentService.commentList("1",pageNum,pageSize,null));
     }
 }

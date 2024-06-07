@@ -1,7 +1,9 @@
 package com.mito.user.service;
 
+import com.mito.user.pojo.dto.UserRegister;
 import com.mito.user.pojo.po.User;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mito.user.pojo.vo.UserInfoVo;
 
 /**
  * <p>
@@ -13,4 +15,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface UserService extends IService<User> {
 
+    UserInfoVo userInfo(long id);
+
+    void updateUserInfo(User user);
+
+    void register(UserRegister userRegister);
 }

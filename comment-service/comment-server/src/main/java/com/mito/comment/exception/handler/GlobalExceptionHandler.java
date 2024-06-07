@@ -21,7 +21,4 @@ public class GlobalExceptionHandler {
 
         return RestResult.fail(e.getMessage(),e.getCode());
     }
-
-
-
 }

@@ -24,6 +24,7 @@
         <module>comment-service</module>
         <module>comment-service/comment-server</module>
         <module>user-service/user-client</module>
+        <module>common/common-log</module>
     </modules>
 
     <properties>

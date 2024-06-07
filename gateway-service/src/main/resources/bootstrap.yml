@@ -28,6 +28,10 @@ spring:
           uri: lb://comment-service
           predicates:
             - Path=/comment-service/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
 
 
   profiles:

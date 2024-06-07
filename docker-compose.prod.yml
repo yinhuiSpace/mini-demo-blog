@@ -18,11 +18,29 @@ services:
       - default
       - mynetwork
 
+  user:
+    build: ./user-service/user-server
+    container_name: user-service
+    ports:
+      - "15200:15200"
+    networks:
+      - default
+      - mynetwork
+
   auth:
     build: ./auth-service/auth-server
     container_name: auth-service
     ports:
-      - "15300:15200"
+      - "15300:15300"
+    networks:
+      - default
+      - mynetwork
+
+  comment:
+    build: ./comment-service/comment-server
+    container_name: comment-service
+    ports:
+      - "15400:15400"
     networks:
       - default
       - mynetwork

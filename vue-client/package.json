@@ -1,0 +1,32 @@
+{
+  "name": "vue-bot-client",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@microsoft/fetch-event-source": "^2.0.1",
+    "@vueuse/core": "^10.9.0",
+    "axios": "^1.6.8",
+    "element-plus": "^2.7.2",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persist": "^1.0.0",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "vditor": "^3.10.4",
+    "vue": "^3.4.21",
+    "vue-qrcode": "^2.2.2",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "less": "^4.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0",
+    "vue-tsc": "^2.0.6"
+  }
+}
