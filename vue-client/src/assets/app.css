@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body,html{
+    background-color: #f6f6f6;
+    color: black;
+    width: 100%;
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    font-family: Helvetica, Tahoma, Arial, "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei", serif;
+}
+
+.el-card{
+    margin-bottom: 16px;
+}

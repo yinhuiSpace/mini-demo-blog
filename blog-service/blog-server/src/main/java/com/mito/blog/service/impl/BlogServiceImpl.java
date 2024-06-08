@@ -19,6 +19,7 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +42,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Lazy
     CategoryService categoryService;
 
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
+
     @Override
     public List<HotArticleVo> hotArticleList() {
 
@@ -60,7 +64,10 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             @Override
             public HotArticleVo apply(Blog blog) {
 
-                return BeanCopyUtil.copyBean(blog, HotArticleVo.class);
+                HotArticleVo hotArticleVo = BeanCopyUtil.copyBean(blog, HotArticleVo.class);
+                hotArticleVo.setViewCount(getViewCount(blog.getId().toString()));
+
+                return hotArticleVo;
             }
         }).collect(Collectors.toList());
 
@@ -86,7 +93,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
                 BlogVo blogVo = BeanCopyUtil.copyBean(blog, BlogVo.class);
 
                 blogVo.setCategoryName(categoryService.getById(blog.getCategoryId()).getName())
-                        .setCreateTimeStr(DateTimeClient.toStr(blog.getCreateTime(), DateTimeClient.SIMPLE_FORMAT));
+                        .setCreateTimeStr(DateTimeClient.toStr(blog.getCreateTime(), DateTimeClient.SIMPLE_FORMAT))
+                        .setViewCount(getViewCount(blog.getId().toString()));
 
                 return blogVo;
             }
@@ -112,8 +120,20 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         }
 
         blogDetailVo.setCreateTimeStr(DateTimeClient.toStr(blog.getCreateTime(),DateTimeClient.SIMPLE_FORMAT))
-                .setCategoryName(category.getName());
+                .setCategoryName(category.getName())
+                .setViewCount(getViewCount(blog.getId().toString()));
 
         return blogDetailVo;
+    }
+
+    private Long getViewCount(String id){
+
+        Object value = stringRedisTemplate.opsForHash().get("blog:viewCount", id);
+
+        if (Objects.nonNull(value)){
+            return Long.parseLong(value.toString());
+        }
+
+        return null;
     }
 }

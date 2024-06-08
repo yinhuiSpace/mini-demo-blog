@@ -22,7 +22,7 @@ spring:
           max-idle: 10
           min-idle: 0
           max-wait: 100ms
-      database: 0
+      database: 3
       host: localhost
       port: 6379
   cloud:
