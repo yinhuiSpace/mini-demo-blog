@@ -1,5 +1,6 @@
 package com.mito.blog.service.impl;
 
+import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mito.blog.constants.BlogConstants;
@@ -18,6 +19,7 @@ import com.mito.common.utils.DateTimeClient;
 import jakarta.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.commons.util.IdUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -93,7 +95,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
                 BlogVo blogVo = BeanCopyUtil.copyBean(blog, BlogVo.class);
 
                 blogVo.setCategoryName(categoryService.getById(blog.getCategoryId()).getName())
-                        .setCreateTimeStr(DateTimeClient.toStr(blog.getCreateTime(), DateTimeClient.SIMPLE_FORMAT))
                         .setViewCount(getViewCount(blog.getId().toString()));
 
                 return blogVo;
@@ -119,11 +120,21 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             throw new RuntimeException("分类信息错误");
         }
 
-        blogDetailVo.setCreateTimeStr(DateTimeClient.toStr(blog.getCreateTime(),DateTimeClient.SIMPLE_FORMAT))
+        blogDetailVo
                 .setCategoryName(category.getName())
                 .setViewCount(getViewCount(blog.getId().toString()));
 
         return blogDetailVo;
+    }
+
+    @Override
+    public void createBlog(Blog blog) {
+
+        Long id = IdUtil.getSnowflake().nextId();
+        stringRedisTemplate.opsForHash().put("blog:viewCount",id.toString(),"0");
+        blog.setId(id);
+
+        save(blog);
     }
 
     private Long getViewCount(String id){

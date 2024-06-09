@@ -44,7 +44,7 @@ public class BlogController {
         return RestResult.ok().setContent(blogService.articleList(categoryId,pageNum,pageSize));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/details/{id}")
     public Object articleDetail(@PathVariable("id")Long id){
 
         return RestResult.ok().setContent(blogService.articleDetail(id));

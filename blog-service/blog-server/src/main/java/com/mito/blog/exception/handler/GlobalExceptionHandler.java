@@ -1,11 +1,12 @@
-package com.mito.auth.exception.handler;
+package com.mito.blog.exception.handler;
 
-import com.mito.auth.exception.SystemException;
+import com.mito.blog.exception.SystemException;
 import com.mito.common.enums.RestResultEnum;
 import com.mito.common.result.RestResult;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.sql.SQLException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -23,13 +24,11 @@ public class GlobalExceptionHandler {
         return RestResult.fail(e.getMessage(),e.getCode());
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public Object doOnBadCredentialsException(BadCredentialsException e){
+    @ExceptionHandler(SQLException.class)
+    public Object doOnSqlException(SQLException e){
+
         e.printStackTrace();
 
-        return RestResult.fail(e.getMessage(),401);
+        return RestResult.fail(RestResultEnum.INVALID_PARAM);
     }
-
-
-
 }

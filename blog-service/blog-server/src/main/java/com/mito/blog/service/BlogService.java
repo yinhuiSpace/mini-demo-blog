@@ -24,4 +24,6 @@ public interface BlogService extends IService<Blog> {
     BlogListVo articleList(Integer categoryId, Integer pageNum, Integer pageSize);
 
     BlogDetailVo articleDetail(Long id);
+
+    void createBlog(Blog blog);
 }

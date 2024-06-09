@@ -1,9 +1,12 @@
 package com.mito.blog.pojo.vo;
 
+import com.mito.common.utils.DateTimeClient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +17,7 @@ public class BlogDetailVo {
     /**
      * 文章id
      * */
-    private Long id;
+    private String id;
 
     /**
      * 标题
@@ -54,10 +57,18 @@ public class BlogDetailVo {
     /**
      * 创建时间
      */
-    private String createTimeStr;
+    private String createTime;
 
     /**
      * 是否允许评论
      */
     private String isComment;
+
+    public void setId(Long id) {
+        this.id = id.toString();
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = DateTimeClient.toStr(createTime, DateTimeClient.SIMPLE_FORMAT);
+    }
 }

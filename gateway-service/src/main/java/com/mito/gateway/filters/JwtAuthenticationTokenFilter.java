@@ -36,7 +36,7 @@ public class JwtAuthenticationTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
 
         String path = request.getURI().getPath();
-        if (path.contains("login")||path.contains("register")||path.contains("commentList")||path.contains("linkCommentList")||path.contains("getAllLink")||path.contains("updateViewCount")||path.contains("board")||path.contains("tip")){
+        if (path.contains("login")||path.contains("articleList")||path.contains("register")||path.contains("commentList")||path.contains("linkCommentList")||path.contains("getAllLink")||path.contains("updateViewCount")||path.contains("board")||path.contains("tip")||path.contains("/article/details")){
             return chain.filter(exchange);
         }
 
