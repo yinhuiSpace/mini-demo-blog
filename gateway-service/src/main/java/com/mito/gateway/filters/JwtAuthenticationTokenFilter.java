@@ -36,11 +36,14 @@ public class JwtAuthenticationTokenFilter implements GlobalFilter, Ordered {
         ServerHttpResponse response = exchange.getResponse();
 
         String path = request.getURI().getPath();
-        if (path.contains("login")||path.contains("articleList")||path.contains("register")||path.contains("commentList")||path.contains("linkCommentList")||path.contains("getAllLink")||path.contains("updateViewCount")||path.contains("board")||path.contains("tip")||path.contains("/article/details")){
-            return chain.filter(exchange);
-        }
+
 
         String token = request.getHeaders().getFirst("token");
+        if (token==null){
+            if (path.contains("login")||path.contains("articleList")||path.contains("register")||path.contains("commentList")||path.contains("linkCommentList")||path.contains("getAllLink")||path.contains("updateViewCount")||path.contains("board")||path.contains("tip")||path.contains("/article/details")||path.contains("/author")){
+                return chain.filter(exchange);
+            }
+        }
         if (!StringUtils.hasText(token)){
             response.setStatusCode(HttpStatusCode.valueOf(401));
             return response.setComplete();

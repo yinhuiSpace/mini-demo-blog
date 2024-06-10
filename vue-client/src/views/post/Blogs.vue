@@ -72,7 +72,8 @@ const toDetail=(id)=>{
               <div class="media-left">
                 <figure class="image is-48x48">
                   <img
-                      src="https://ts1.cn.mm.bing.net/th?id=OIP-C.n3R76oCIbgTiX0Q2BqxUswHaHa&w=249&h=250&c=8&rs=1&qlt=90&o=6&dpr=2&pid=3.1&rm=2"
+                      src="https://gzbucket-1326631670.cos.ap-guangzhou.myqcloud.com/1800031117860954112.png"
+                      alt="缩略图"
                   >
 
                 </figure>

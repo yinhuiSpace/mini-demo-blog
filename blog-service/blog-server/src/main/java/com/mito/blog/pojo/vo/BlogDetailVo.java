@@ -64,11 +64,20 @@ public class BlogDetailVo {
      */
     private String isComment;
 
+    /**
+    * 作者
+    * */
+    private String createBy;
+
     public void setId(Long id) {
         this.id = id.toString();
     }
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = DateTimeClient.toStr(createTime, DateTimeClient.SIMPLE_FORMAT);
+    }
+
+    public void setCreateBy(Long createBy) {
+        this.createBy = createBy.toString();
     }
 }

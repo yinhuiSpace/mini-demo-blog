@@ -19,6 +19,8 @@
     <file url="file://$PROJECT_DIR$/common/common-db/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/common-log/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/common-log/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/common-oss/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/common/common-oss/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/common-tool/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/common-tool/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/common-web/src/main/java" charset="UTF-8" />

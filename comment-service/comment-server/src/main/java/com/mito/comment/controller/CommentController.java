@@ -27,8 +27,8 @@ public class CommentController {
 
     @GetMapping("/commentList")
     public Object commentList(
-            @RequestParam("pageNum")Integer pageNum,
-            @RequestParam("pageSize") Integer pageSize,
+            @RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
             @RequestParam("articleId")Long articleId
     ) {
 

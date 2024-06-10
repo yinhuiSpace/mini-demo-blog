@@ -8,6 +8,9 @@ import {createPinia, Pinia} from "pinia";
 import 'element-plus/theme-chalk/dark/css-vars.css';
 // import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 // import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
+import UndrawUi from 'undraw-ui'
+import 'undraw-ui/dist/style.css'
 import piniaPluginPersist from 'pinia-plugin-persist'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
@@ -23,6 +26,7 @@ app.use(ElementPlus,{locale:zhCN})
 app.use(Buefy)
 app.use(router)
 app.use(pinia)
+app.use(UndrawUi)
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)

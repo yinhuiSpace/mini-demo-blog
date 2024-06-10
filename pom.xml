@@ -25,6 +25,7 @@
         <module>comment-service/comment-server</module>
         <module>user-service/user-client</module>
         <module>common/common-log</module>
+        <module>common/common-oss</module>
     </modules>
 
     <properties>
@@ -43,6 +44,7 @@
         <commons-pool2.version>2.12.0</commons-pool2.version>
         <minio.version>8.5.10</minio.version>
         <codec.version>1.17.0</codec.version>
+        <tx-oss.version>5.6.213</tx-oss.version>
 
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
@@ -158,6 +160,12 @@
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${codec.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.qcloud</groupId>
+                <artifactId>cos_api</artifactId>
+                <version>${tx-oss.version}</version>
             </dependency>
 
 
