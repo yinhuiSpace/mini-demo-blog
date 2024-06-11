@@ -25,7 +25,6 @@ public class UserController {
 
         return user;
     }
-
     @GetMapping("/userInfo")
     public Object userInfo(){
 

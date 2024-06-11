@@ -23,7 +23,7 @@ import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author root
@@ -63,31 +63,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         userRegister.setPassword(passwordEncoder.encode(userRegister.getPassword()));
         //2.插入数据库
         User user = BeanCopyUtil.copyBean(userRegister, User.class);
-        user.setId(IdUtil.getSnowflake().nextId());
-        user.setType(TypeConstants.TYPE_USER);
+        user.setId(IdUtil.getSnowflake().nextId())
+                .setType(TypeConstants.TYPE_USER)
+                .setNickname(userRegister.getUsername());
         save(user);
     }
 
-    private void checkRegisterArgs(UserRegister userRegister){
+    private void checkRegisterArgs(UserRegister userRegister) {
 
-        if (isExists(User::getUsername,userRegister.getUsername())){
+        if (isExists(User::getUsername, userRegister.getUsername())) {
             throw new UserException(RestResultEnum.USERNAME_EXIST);
         }
 
-        if (isExists(User::getEmail,userRegister.getEmail())){
+        if (isExists(User::getEmail, userRegister.getEmail())) {
             throw new UserException(RestResultEnum.EMAIL_EXIST);
         }
 
-        if (isExists(User::getPhone,userRegister.getPhone())){
+        if (isExists(User::getPhone, userRegister.getPhone())) {
             throw new UserException(RestResultEnum.PHONE_NUMBER_EXIST);
         }
 
     }
 
-    private boolean isExists(SFunction<User,?> column,Object val){
+    private boolean isExists(SFunction<User, ?> column, Object val) {
 
         LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(column,val);
+        wrapper.eq(column, val);
 
         return count(wrapper) != 0;
     }

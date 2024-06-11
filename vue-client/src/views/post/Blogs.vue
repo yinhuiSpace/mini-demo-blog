@@ -45,6 +45,12 @@ const handlePageSize=(pageSize)=>{
 
 const activeTab=ref('1')
 
+const toPerson=(id)=>{
+  router.push({
+    path:`/person/${id}`
+  })
+}
+
 const toDetail=(id)=>{
   router.push({
     path:`/details/${id}`
@@ -68,7 +74,7 @@ const toDetail=(id)=>{
       <div class="is-clearfix">
         <el-tabs v-model="activeTab">
           <el-tab-pane label="最新文章" name="1">
-            <article v-for="(item,index) in blogs" :key="index" class="media" @click="toDetail(item.id)">
+            <article v-for="(item,index) in blogs" :key="index" class="media">
               <div class="media-left">
                 <figure class="image is-48x48">
                   <img
@@ -80,7 +86,7 @@ const toDetail=(id)=>{
               </div>
 
               <div class="media-content">
-                <div class="">
+                <div class=""  @click="toDetail(item.id)">
                   <p class="has-ellipsis">
                     <el-tooltip class="el-form-item" effect="dark" placement="top" :content="item.title">
                       <!--                    <router-link :to="{name:'blog-detail',params:{id:item.id}}">-->
@@ -99,11 +105,10 @@ const toDetail=(id)=>{
                 <nav class="level has-text-grey is-mobile is-size-7 mt-2">
                   <div class="level-left">
                     <div class="level-left">
-                      <router-link to="#">
-
-                      </router-link>
-
                       <span class="mr-1">
+                        <el-link :underline="false" @click="toPerson(item.createBy)">
+                          {{item.authorName}}
+                        </el-link>
                         发布于{{ item.createTime }}
                       </span>
 

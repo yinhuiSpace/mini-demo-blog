@@ -14,6 +14,8 @@ import com.mito.blog.pojo.vo.HotArticleVo;
 import com.mito.blog.service.BlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mito.blog.service.CategoryService;
+import com.mito.client.UserClient;
+import com.mito.client.pojo.po.User;
 import com.mito.common.utils.BeanCopyUtil;
 import com.mito.common.utils.DateTimeClient;
 import jakarta.annotation.Resource;
@@ -46,6 +48,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Resource
     StringRedisTemplate stringRedisTemplate;
+
+    @Resource
+    UserClient userClient;
 
     @Override
     public List<HotArticleVo> hotArticleList() {
@@ -94,8 +99,11 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
                 BlogVo blogVo = BeanCopyUtil.copyBean(blog, BlogVo.class);
 
+                User user = userClient.getOneById(blog.getCreateBy());
+
                 blogVo.setCategoryName(categoryService.getById(blog.getCategoryId()).getName())
-                        .setViewCount(getViewCount(blog.getId().toString()));
+                        .setViewCount(getViewCount(blog.getId().toString()))
+                        .setAuthorName(user.getNickname());
 
                 return blogVo;
             }

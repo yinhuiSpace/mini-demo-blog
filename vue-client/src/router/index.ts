@@ -51,6 +51,14 @@ const router = createRouter({
             meta:{
                 title:'文章详情'
             }
+        },
+        {
+            path:'/person/:id',
+            name:'person',
+            component:()=>import('../views/person/Profile.vue'),
+            meta:{
+                title:'个人中心'
+            }
         }
     ]
 });

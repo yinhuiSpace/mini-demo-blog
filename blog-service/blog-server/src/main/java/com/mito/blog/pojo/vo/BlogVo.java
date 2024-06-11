@@ -45,6 +45,16 @@ public class BlogVo {
      */
     private Long viewCount;
 
+    /**
+    * 作者
+    * */
+    private String createBy;
+
+    /**
+    * 作者名
+    * */
+    private String authorName;
+
     private String createTime;
 
 
@@ -55,5 +65,9 @@ public class BlogVo {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = DateTimeClient.toStr(createTime, DateTimeClient.SIMPLE_FORMAT);
+    }
+
+    public void setCreateBy(Long createBy) {
+        this.createBy = createBy.toString();
     }
 }
