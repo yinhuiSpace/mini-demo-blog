@@ -4,10 +4,12 @@ import com.mito.common.enums.RestResultEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
 @Builder
 public class RestResult<T> {

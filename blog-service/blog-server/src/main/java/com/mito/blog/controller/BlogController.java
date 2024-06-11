@@ -1,6 +1,7 @@
 package com.mito.blog.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mito.blog.pojo.po.Blog;
 import com.mito.blog.pojo.vo.BlogDetailVo;
 import com.mito.blog.pojo.vo.BlogVo;
@@ -48,5 +49,14 @@ public class BlogController {
     public Object articleDetail(@PathVariable("id")Long id){
 
         return RestResult.ok().setContent(blogService.articleDetail(id));
+    }
+
+    @GetMapping("/count")
+    public RestResult<Long> count(@RequestParam("id")Long id){
+
+        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Blog::getCreateBy,id);
+
+        return RestResult.ok(blogService.count(wrapper));
     }
 }

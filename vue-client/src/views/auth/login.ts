@@ -41,6 +41,10 @@ export const login=(formInstance)=>{
                         useUserStore().token=resp.data.content.token
                         useUserStore().userInfo=resp.data.content.userInfoVo
                         ElMessage.success('登录成功')
+                        loginForm.value={
+                            username: '',
+                            password: ''
+                        }
                         router.push({path:'/'}).then()
                     }else {
                         ElMessage.error(resp.data.message)

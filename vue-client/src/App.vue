@@ -8,7 +8,7 @@ import Footer from "./components/layout/Footer.vue";
   <el-header class="">
     <Header/>
   </el-header>
-  <el-main class="container ">
+  <el-main class="container " style="min-height: 70vh;">
     <router-view></router-view>
   </el-main>
 

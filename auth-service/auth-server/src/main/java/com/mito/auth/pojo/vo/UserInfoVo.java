@@ -11,7 +11,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class UserInfoVo {
 
-    private Long id;
+    private String id;
 
     /**
      * 用户名
@@ -43,4 +43,8 @@ public class UserInfoVo {
      * 头像
      */
     private String avatar;
+
+    public void setId(Long id) {
+        this.id = id.toString();
+    }
 }

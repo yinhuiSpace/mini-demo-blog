@@ -87,7 +87,7 @@ const toDetail=(id)=>{
 
               <div class="media-content">
                 <div class=""  @click="toDetail(item.id)">
-                  <p class="has-ellipsis">
+                  <el-link :underline="false" class="has-ellipsis">
                     <el-tooltip class="el-form-item" effect="dark" placement="top" :content="item.title">
                       <!--                    <router-link :to="{name:'blog-detail',params:{id:item.id}}">-->
                                             <span class="is-size-6">
@@ -95,7 +95,7 @@ const toDetail=(id)=>{
                                             </span>
                       <!--                    </router-link>-->
                     </el-tooltip>
-                  </p>
+                  </el-link>
 
                   <p class="has-text-grey is-size-7 mt-1">
                     {{ item.summary }}

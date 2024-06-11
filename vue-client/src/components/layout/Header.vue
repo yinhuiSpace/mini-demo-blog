@@ -6,20 +6,25 @@ import axiosInstance from "../../api";
 import {ElMessage} from "element-plus";
 import {useThemeStore} from "../../stores/theme.ts";
 import {useToggle} from "@vueuse/shared";
+import router from "../../router";
 
 
-const change=(value)=>{
+const change = (value) => {
   console.log(value);
 }
 
 const toggle = useToggle(useThemeStore().isDark);
 
-const logout=()=>{
+const logout = () => {
   axiosInstance.post('/auth-service/auth/logout')
-      .then((resp)=>{
+      .then((resp) => {
         useUserStore().removeLogin()
         ElMessage.success('退出登录成功')
       })
+}
+
+const toPerson = () => {
+  router.push({path:`/me`})
 }
 </script>
 
@@ -75,7 +80,7 @@ const logout=()=>{
           :label="useUserStore().userInfo.username"
           class="mr-6"
       >
-        <b-navbar-item href="#">
+        <b-navbar-item @click="toPerson">
           个人中心
         </b-navbar-item>
         <b-navbar-item @click="logout">

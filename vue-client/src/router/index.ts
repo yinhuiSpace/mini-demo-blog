@@ -59,6 +59,14 @@ const router = createRouter({
             meta:{
                 title:'个人中心'
             }
+        },
+        {
+            path:'/me',
+            name:'me',
+            component:()=>import('../views/person/Person.vue'),
+            meta:{
+                title:'个人中心'
+            }
         }
     ]
 });
