@@ -50,6 +50,11 @@ public class UserInfoVo {
      */
     private String avatar;
 
+    /**
+    * 是否封禁
+    * */
+    private String status;
+
     public void setId(Long id) {
 
         this.id=id.toString();

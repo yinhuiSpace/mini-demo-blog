@@ -22,7 +22,9 @@ public enum RestResultEnum {
 
     CAN_NOT_REPEAT_FOLLOW(510,"不能重复关注"),
 
-    CAN_NOT_SELF_FOLLOW(511,"不能关注自己");
+    CAN_NOT_SELF_FOLLOW(511,"不能关注自己"),
+
+    ACCOUNT_EXISTS(512,"该账号已存在");
 
     Integer code;
 

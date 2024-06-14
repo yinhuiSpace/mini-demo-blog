@@ -1,18 +1,35 @@
 {
-  "name": "vue-admin",
+  "name": "vue-bot-client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.21"
+    "@element-plus/icons-vue": "^2.3.1",
+    "@microsoft/fetch-event-source": "^2.0.1",
+    "@vueuse/core": "^10.10.0",
+    "axios": "^1.6.8",
+    "bright-comment": "^1.5.7",
+    "buefy": "npm:@ntohq/buefy-next@^0.1.3",
+    "element-plus": "^2.7.2",
+    "js-cookie": "^3.0.5",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persist": "^1.0.0",
+    "pinia-plugin-persistedstate": "^3.2.1",
+    "undraw-ui": "^1.1.1",
+    "vditor": "^3.10.4",
+    "vue": "^3.4.21",
+    "vue-qrcode": "^2.2.2",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
+    "less": "^4.2.0",
+    "sass": "^1.77.4",
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "vue-tsc": "^2.0.6"

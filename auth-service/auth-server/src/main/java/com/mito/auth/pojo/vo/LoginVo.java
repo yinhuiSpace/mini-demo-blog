@@ -9,9 +9,9 @@ import lombok.experimental.Accessors;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class LoginVo {
+public class LoginVo<T> {
 
     private String token;
 
-    private UserInfoVo userInfoVo;
+    private T infoVo;
 }

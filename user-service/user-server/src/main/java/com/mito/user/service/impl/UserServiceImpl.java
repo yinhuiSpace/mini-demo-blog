@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mito.common.enums.RestResultEnum;
 import com.mito.common.utils.BeanCopyUtil;
 import com.mito.user.constants.TypeConstants;
@@ -12,14 +13,18 @@ import com.mito.user.exceptions.UserException;
 import com.mito.user.pojo.dto.UserRegister;
 import com.mito.user.pojo.po.User;
 import com.mito.user.mapper.UserMapper;
+import com.mito.user.pojo.vo.UserInfoListVo;
 import com.mito.user.pojo.vo.UserInfoVo;
 import com.mito.user.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -66,6 +71,52 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         user.setId(IdUtil.getSnowflake().nextId())
                 .setType(TypeConstants.TYPE_USER)
                 .setNickname(userRegister.getUsername());
+        save(user);
+    }
+
+    @Override
+    public UserInfoListVo getByPage(Long pageNum, Long pageSize, String nickname) {
+
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(StringUtils.hasText(nickname),User::getNickname,nickname);
+
+        Page<User> page = page(Page.of(pageNum, pageSize), wrapper);
+        List<UserInfoVo> userInfoVos = page.getRecords().stream().map(new Function<User, UserInfoVo>() {
+            @Override
+            public UserInfoVo apply(User user) {
+
+                return BeanCopyUtil.copyBean(user, UserInfoVo.class);
+            }
+        }).collect(Collectors.toList());
+
+        UserInfoListVo userInfoListVo = new UserInfoListVo();
+        userInfoListVo.setRows(userInfoVos)
+                .setTotal(page.getTotal());
+
+        return userInfoListVo;
+    }
+
+    @Override
+    public void add(UserRegister userRegister) {
+
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getUsername,userRegister.getUsername())
+                .or()
+                .eq(User::getNickname,userRegister.getNickname())
+                .or()
+                .eq(User::getEmail,userRegister.getEmail())
+                .or()
+                .eq(User::getPhone,userRegister.getPhone());
+
+        List<User> list = list(wrapper);
+        if (list.size()!=0){
+            throw new UserException(RestResultEnum.ACCOUNT_EXISTS);
+        }
+
+        User user = BeanCopyUtil.copyBean(userRegister, User.class);
+        user.setId(IdUtil.getSnowflake().nextId())
+                        .setType(TypeConstants.TYPE_USER);
+
         save(user);
     }
 

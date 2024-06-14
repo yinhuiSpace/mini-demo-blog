@@ -30,7 +30,7 @@ public class UserLoginServiceImpl implements UserLoginService {
     StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public LoginVo login(UserLoginDto userLoginDto) {
+    public LoginVo<UserInfoVo> login(UserLoginDto userLoginDto) {
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                 userLoginDto.getUsername(),
@@ -53,9 +53,9 @@ public class UserLoginServiceImpl implements UserLoginService {
         stringRedisTemplate.opsForValue().set("bloglogin:"+user.getId(),JSONUtil.toJsonStr(loginUserDetails));
 
         //封装成对象
-        LoginVo loginVo = new LoginVo();
+        LoginVo<UserInfoVo> loginVo = new LoginVo<>();
 
         return loginVo.setToken(token)
-                .setUserInfoVo(BeanCopyUtil.copyBean(user, UserInfoVo.class));
+                .setInfoVo(BeanCopyUtil.copyBean(user, UserInfoVo.class));
     }
 }

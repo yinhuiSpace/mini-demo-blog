@@ -1,5 +1,8 @@
 package com.mito.gateway.config;
 
+import com.mito.gateway.auth.AuthorizationManager;
+import com.mito.gateway.handler.AccessDeniedHandler;
+import jakarta.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
@@ -19,6 +22,12 @@ import reactor.core.publisher.Mono;
 @EnableWebFluxSecurity
 public class SecurityConfig {
 
+    @Resource
+    AuthorizationManager authorizationManager;
+
+    @Resource
+    AccessDeniedHandler accessDeniedHandler;
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity serverHttpSecurity) {
 
@@ -32,6 +41,14 @@ public class SecurityConfig {
                     @Override
                     public void customize(ServerHttpSecurity.AuthorizeExchangeSpec authorizeExchangeSpec) {
                         authorizeExchangeSpec.anyExchange().permitAll();
+//                        authorizeExchangeSpec.pathMatchers("").permitAll()
+//                                .anyExchange().access(authorizationManager);
+                    }
+                })
+                .exceptionHandling(new Customizer<ServerHttpSecurity.ExceptionHandlingSpec>() {
+                    @Override
+                    public void customize(ServerHttpSecurity.ExceptionHandlingSpec exceptionHandlingSpec) {
+                        exceptionHandlingSpec.accessDeniedHandler(accessDeniedHandler);
                     }
                 })
                 .formLogin(new Customizer<ServerHttpSecurity.FormLoginSpec>() {
