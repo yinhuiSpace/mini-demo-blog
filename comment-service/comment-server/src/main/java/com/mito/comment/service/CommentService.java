@@ -3,6 +3,7 @@ package com.mito.comment.service;
 import com.mito.comment.pojo.po.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mito.comment.pojo.vo.CommentListVo;
+import com.mito.comment.pojo.vo.CommentQueryListVo;
 import com.mito.comment.pojo.vo.CommentVo;
 
 import java.util.List;
@@ -21,4 +22,8 @@ public interface CommentService extends IService<Comment> {
     CommentListVo commentList(String commentType,Integer pageNum, Integer pageSize, Long articleId);
 
     void addComment(Comment comment);
+
+    CommentQueryListVo getPage(Long pageNum, Long pageSize, String content);
+
+    void deleteById(Long id);
 }

@@ -3,9 +3,7 @@ package com.mito.blog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mito.blog.pojo.po.Blog;
-import com.mito.blog.pojo.vo.BlogDetailVo;
-import com.mito.blog.pojo.vo.BlogVo;
-import com.mito.blog.pojo.vo.HotArticleVo;
+import com.mito.blog.pojo.vo.*;
 import com.mito.blog.service.BlogService;
 import com.mito.common.result.RestResult;
 import jakarta.annotation.Resource;
@@ -58,5 +56,45 @@ public class BlogController {
         wrapper.eq(Blog::getCreateBy,id);
 
         return RestResult.ok(blogService.count(wrapper));
+    }
+
+    @GetMapping("/list")
+    public Object list(@RequestParam(value = "pageNum",defaultValue = "1")Long pageNum,
+                       @RequestParam(value = "pageSize",defaultValue = "10") Long pageSize,
+                       @RequestParam(value = "title",required = false)String title){
+
+        return RestResult.ok().setContent(blogService.getPage(pageNum,pageSize,title));
+    }
+
+    @GetMapping("/review")
+    public Object review(@RequestParam(value = "pageNum",defaultValue = "1")Long pageNum,
+                       @RequestParam(value = "pageSize",defaultValue = "10") Long pageSize,
+                       @RequestParam(value = "title",required = false)String title){
+
+        return RestResult.ok().setContent(blogService.getReview(pageNum,pageSize,title));
+    }
+
+    @DeleteMapping("/{id}")
+    public Object deleteById(@PathVariable("id")String id){
+
+        blogService.deleteById(Long.parseLong(id));
+
+        return RestResult.ok();
+    }
+
+    @PutMapping("/update")
+    public Object updateById(@RequestBody BlogUpdateVo blogUpdateVo){
+
+        blogService.updateBlog(blogUpdateVo);
+
+        return RestResult.ok();
+    }
+
+    @GetMapping("/one")
+    public Blog getOne(@RequestParam("id")Long id){
+
+        Blog blog = blogService.getById(id);
+
+        return blog;
     }
 }

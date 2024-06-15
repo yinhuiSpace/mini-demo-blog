@@ -11,6 +11,7 @@ import com.mito.common.utils.BeanCopyUtil;
 import com.mito.user.constants.TypeConstants;
 import com.mito.user.exceptions.UserException;
 import com.mito.user.pojo.dto.UserRegister;
+import com.mito.user.pojo.dto.UserUpdateDTO;
 import com.mito.user.pojo.po.User;
 import com.mito.user.mapper.UserMapper;
 import com.mito.user.pojo.vo.UserInfoListVo;
@@ -118,6 +119,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                         .setType(TypeConstants.TYPE_USER);
 
         save(user);
+    }
+
+    @Override
+    public void updateUser(UserUpdateDTO userUpdateDTO) {
+
+        User user = BeanCopyUtil.copyBean(userUpdateDTO, User.class);
+        user.setId(Long.parseLong(userUpdateDTO.getId()));
+
+        updateById(user);
+
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(User::getId,id);
+
+        remove(wrapper);
     }
 
     private void checkRegisterArgs(UserRegister userRegister) {

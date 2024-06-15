@@ -7,10 +7,7 @@ import com.mito.blog.constants.BlogConstants;
 import com.mito.blog.pojo.po.Blog;
 import com.mito.blog.mapper.BlogMapper;
 import com.mito.blog.pojo.po.Category;
-import com.mito.blog.pojo.vo.BlogDetailVo;
-import com.mito.blog.pojo.vo.BlogListVo;
-import com.mito.blog.pojo.vo.BlogVo;
-import com.mito.blog.pojo.vo.HotArticleVo;
+import com.mito.blog.pojo.vo.*;
 import com.mito.blog.service.BlogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mito.blog.service.CategoryService;
@@ -25,6 +22,7 @@ import org.springframework.cloud.commons.util.IdUtils;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Objects;
@@ -143,6 +141,83 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         blog.setId(id);
 
         save(blog);
+    }
+
+    @Override
+    public BlogListVo getPage(Long pageNum, Long pageSize, String title) {
+
+        Page<Blog> page = getBlogPage(pageNum, pageSize, title);
+
+        List<BlogVo> blogVoList = page.getRecords().stream().map(new Function<Blog, BlogVo>() {
+            @Override
+            public BlogVo apply(Blog blog) {
+                return BeanCopyUtil.copyBean(blog, BlogVo.class);
+            }
+        }).collect(Collectors.toList());
+
+        BlogListVo blogListVo = new BlogListVo();
+        blogListVo.setTotal(page.getTotal())
+                .setRows(blogVoList);
+
+        return blogListVo;
+    }
+
+    private Page<Blog> getBlogPage(Long pageNum, Long pageSize, String title) {
+        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.like(StringUtils.hasText(title),Blog::getTitle, title);
+
+        return page(Page.of(pageNum, pageSize), wrapper);
+    }
+
+    @Override
+    public BlogReviewListVo getReview(Long pageNum, Long pageSize, String title) {
+
+        Page<Blog> page = getBlogPage(pageNum, pageSize, title);
+
+        List<BlogReviewVo> blogReviewVoList = page.getRecords().stream().map(new Function<Blog, BlogReviewVo>() {
+            @Override
+            public BlogReviewVo apply(Blog blog) {
+                return BeanCopyUtil.copyBean(blog, BlogReviewVo.class);
+            }
+        }).collect(Collectors.toList());
+
+        BlogReviewListVo blogReviewListVo = new BlogReviewListVo();
+        blogReviewListVo.setTotal(page.getTotal())
+                .setRows(blogReviewVoList);
+
+
+        return blogReviewListVo;
+    }
+
+
+    @Override
+    public void deleteById(Long id) {
+
+        removeById(id);
+    }
+
+    @Override
+    public void updateBlog(BlogUpdateVo blogUpdateVo) {
+
+        Blog blog = BeanCopyUtil.copyBean(blogUpdateVo, Blog.class);
+        blog.setId(Long.parseLong(blogUpdateVo.getId()));
+
+        updateById(blog);
+
+    }
+
+    @Override
+    public List<BlogDataVo> getData() {
+
+        List<Blog> blogs = list();
+
+        return blogs.stream().map(new Function<Blog, BlogDataVo>() {
+            @Override
+            public BlogDataVo apply(Blog blog) {
+
+                return BeanCopyUtil.copyBean(blog, BlogDataVo.class);
+            }
+        }).collect(Collectors.toList());
     }
 
     private Long getViewCount(String id){

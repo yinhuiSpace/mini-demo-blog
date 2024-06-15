@@ -2,6 +2,10 @@
 
 import {ArrowRight, Expand, Fold, FullScreen, Location} from "@element-plus/icons-vue";
 import {ref} from "vue";
+import {useRoute} from "vue-router";
+import {multiMenu, singleMenu} from "../../api/menu.ts";
+import {useUserStore} from "../../stores/user.ts";
+import {logout} from "../../api/auth.ts";
 
 const isCollapse = ref(false)
 
@@ -30,42 +34,34 @@ const handleFull = () => {
         </transition>
       </div>
 
-      <el-menu :collapse="isCollapse" :collapse-transition="false" style="border: none;" router default-active="/"
+      <el-menu :collapse="isCollapse" :collapse-transition="false" style="border: none;" router :default-active="useRoute().fullPath"
                background-color="#001529"
                text-color="rgba(255,255,255,0.65)" active-text-color="#fff">
-        <el-menu-item index="/">
+        <el-menu-item v-for="(item,index) in singleMenu" :key="index" :index="item.path">
           <el-icon>
-            <location/>
+            <component class="icon" :is="item.icon"/>
           </el-icon>
+
           <template #title>
-            <span>系统首页</span>
+            <span>
+              {{item.label}}
+            </span>
           </template>
         </el-menu-item>
-        <el-menu-item index="/1">
-          <el-icon>
-            <location/>
-          </el-icon>
-          <template #title>
-            <span>系统首页</span>
-          </template>
-        </el-menu-item>
-        <el-menu-item index="/2">
-          <el-icon>
-            <location/>
-          </el-icon>
-          <template #title>
-            <span>系统首页</span>
-          </template>
-        </el-menu-item>
-        <el-sub-menu>
+
+        <el-sub-menu v-for="(item,index) in multiMenu" :key="index" >
           <template #title>
             <el-icon>
-              <location/>
+              <component class="icon" :is="item.icon"/>
             </el-icon>
-            <span>信息管理</span>
+            <span>
+              {{item.label}}
+            </span>
           </template>
-          <el-menu-item index="/user">用户信息</el-menu-item>
-          <el-menu-item index="/admin">管理员信息</el-menu-item>
+          <el-menu-item v-for="(e,i) in item.children" :key="i" :index="e.path">
+            {{e.label}}
+          </el-menu-item>
+
         </el-sub-menu>
       </el-menu>
     </el-aside>
@@ -90,9 +86,14 @@ const handleFull = () => {
               <span style="margin-left: 2px">管理员</span>
             </div>
             <template #dropdown>
-              <el-dropdown-menu>
+              <el-dropdown-menu v-if="useUserStore().isLogin()">
                 <el-dropdown-item>个人中心</el-dropdown-item>
-                <el-dropdown-item divided>退出登录</el-dropdown-item>
+                <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
+              </el-dropdown-menu>
+              <el-dropdown-menu v-else>
+                <router-link to="/login">
+                  <el-dropdown-item>登录</el-dropdown-item>
+                </router-link>
               </el-dropdown-menu>
             </template>
           </el-dropdown>

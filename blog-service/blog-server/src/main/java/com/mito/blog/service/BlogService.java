@@ -2,10 +2,7 @@ package com.mito.blog.service;
 
 import com.mito.blog.pojo.po.Blog;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.mito.blog.pojo.vo.BlogDetailVo;
-import com.mito.blog.pojo.vo.BlogListVo;
-import com.mito.blog.pojo.vo.BlogVo;
-import com.mito.blog.pojo.vo.HotArticleVo;
+import com.mito.blog.pojo.vo.*;
 
 import java.util.List;
 
@@ -26,4 +23,14 @@ public interface BlogService extends IService<Blog> {
     BlogDetailVo articleDetail(Long id);
 
     void createBlog(Blog blog);
+
+    BlogListVo getPage(Long pageNum, Long pageSize, String title);
+
+    BlogReviewListVo getReview(Long pageNum, Long pageSize, String title);
+
+    void deleteById(Long id);
+
+    void updateBlog(BlogUpdateVo blogUpdateVo);
+
+    List<BlogDataVo> getData();
 }

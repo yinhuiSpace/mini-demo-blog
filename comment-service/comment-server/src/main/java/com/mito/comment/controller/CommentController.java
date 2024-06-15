@@ -2,6 +2,7 @@ package com.mito.comment.controller;
 
 
 import com.mito.comment.pojo.po.Comment;
+import com.mito.comment.pojo.vo.CommentQueryListVo;
 import com.mito.comment.pojo.vo.CommentVo;
 import com.mito.comment.service.CommentService;
 import com.mito.common.result.RestResult;
@@ -48,5 +49,23 @@ public class CommentController {
                                   @RequestParam("pageSize") Integer pageSize){
 
         return RestResult.ok().setContent(commentService.commentList("1",pageNum,pageSize,null));
+    }
+
+    @GetMapping("/page")
+    public Object getPage(
+            @RequestParam(value = "pageNum",defaultValue = "1")Long pageNum,
+            @RequestParam(value = "pageSize",defaultValue = "10")Long pageSize,
+            @RequestParam(value = "content",required = false)String content){
+
+
+        return RestResult.ok().setContent(commentService.getPage(pageNum,pageSize,content));
+    }
+
+    @DeleteMapping("/{id}")
+    public Object deleteById(@PathVariable("id")String id){
+
+        commentService.deleteById(Long.parseLong(id));
+
+        return RestResult.ok();
     }
 }

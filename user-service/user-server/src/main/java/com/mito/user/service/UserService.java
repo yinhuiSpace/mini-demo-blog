@@ -1,6 +1,7 @@
 package com.mito.user.service;
 
 import com.mito.user.pojo.dto.UserRegister;
+import com.mito.user.pojo.dto.UserUpdateDTO;
 import com.mito.user.pojo.po.User;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.mito.user.pojo.vo.UserInfoListVo;
@@ -25,4 +26,8 @@ public interface UserService extends IService<User> {
     UserInfoListVo getByPage(Long pageNum, Long pageSize, String nickname);
 
     void add(UserRegister userRegister);
+
+    void updateUser(UserUpdateDTO userUpdateDTO);
+
+    void deleteById(Long id);
 }

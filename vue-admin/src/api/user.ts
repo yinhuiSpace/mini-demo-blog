@@ -144,3 +144,55 @@ export const add = (formInstance) => {
         }
     })
 }
+
+export const id = ref("")
+
+export const deleteById = () => {
+    loading.value = true
+    axiosInstance.delete(`/user-service/user/${id.value}`)
+        .then((resp) => {
+            if (resp.data.isSuccess) {
+                loading.value = false
+                ElMessage.success("删除成功")
+                isDelete.value = false
+                list()
+            } else {
+                ElMessage.error(resp.data.message)
+                loading.value = false
+                isDelete.value = false
+            }
+        })
+}
+
+export const isDelete = ref(false)
+
+export const confirmDelete = (rowId) => {
+    id.value = rowId
+    isDelete.value = true
+}
+
+export const isUpdate = ref(false)
+
+export const user = ref({})
+
+export const confirmUpdate = (rowUser) => {
+
+    user.value = rowUser
+    isUpdate.value = true
+}
+
+export const update = () => {
+    loading.value = true
+    axiosInstance.put('/user-service/user/update', user.value)
+        .then((resp) => {
+            if (resp.data.isSuccess) {
+                loading.value = false
+                ElMessage.success("更新成功")
+                isUpdate.value = false
+                list()
+            } else {
+                ElMessage.error(resp.data.message)
+                loading.value = false
+            }
+        })
+}

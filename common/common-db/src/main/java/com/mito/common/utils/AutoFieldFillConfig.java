@@ -26,18 +26,24 @@ public class AutoFieldFillConfig implements MetaObjectHandler {
     public void updateFill(MetaObject metaObject) {
         setFieldValByName("updateTime",Timestamp.valueOf(LocalDateTime.now()),metaObject);
 
-        setFieldValByName("updateBy",Long.parseLong(getUserId()),metaObject);
+        String userId = getUserId();
+        if (userId!=null){
+            setFieldValByName("updateBy",Long.parseLong(userId),metaObject);
+        }
+
     }
 
     private static String getUserId(){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 
-        assert requestAttributes != null;
-        HttpServletRequest request = requestAttributes.getRequest();
+        String userId = null;
+        if (requestAttributes!=null) {
+            HttpServletRequest request = requestAttributes.getRequest();
 
-        String userId = request.getHeader("userId");
-        if (!StringUtils.hasText(userId)){
-            userId="-1";
+            userId = request.getHeader("userId");
+            if (!StringUtils.hasText(userId)){
+                userId="-1";
+            }
         }
         return userId;
     }

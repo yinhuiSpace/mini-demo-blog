@@ -6,6 +6,7 @@ import com.mito.common.result.RestResult;
 import com.mito.common.utils.SecurityContextUtil;
 import com.mito.user.exceptions.UserException;
 import com.mito.user.pojo.dto.UserRegister;
+import com.mito.user.pojo.dto.UserUpdateDTO;
 import com.mito.user.pojo.po.User;
 import com.mito.user.pojo.vo.UserInfoListVo;
 import com.mito.user.pojo.vo.UserInfoVo;
@@ -58,7 +59,7 @@ public class UserController {
     @GetMapping("/list")
     public Object list(@RequestParam(value = "pageNum", defaultValue = "1") Long pageNum,
                        @RequestParam(value = "pageSize", defaultValue = "10") Long pageSize,
-                       @RequestParam(value = "username", required = false) String nickname) {
+                       @RequestParam(value = "nickname", required = false) String nickname) {
 
         return RestResult.ok().setContent(userService.getByPage(pageNum, pageSize, nickname));
     }
@@ -67,6 +68,23 @@ public class UserController {
     public Object add(@RequestBody UserRegister userRegister){
 
         userService.add(userRegister);
+
+        return RestResult.ok();
+    }
+
+    @PutMapping("/update")
+    public Object update(@RequestBody UserUpdateDTO userUpdateDTO){
+
+        userService.updateUser(userUpdateDTO);
+
+        return RestResult.ok();
+
+    }
+
+    @DeleteMapping("/{id}")
+    public Object deleteById(@PathVariable("id") String id){
+
+        userService.deleteById(Long.parseLong(id));
 
         return RestResult.ok();
     }
