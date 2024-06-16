@@ -36,11 +36,11 @@ public class BlogController {
     }
 
     @GetMapping("/articleList")
-    public Object articleList(@RequestParam(value = "categoryId",required = false) Integer categoryId,
+    public Object articleList(@RequestParam(value = "categoryId",required = false) String categoryId,
                               @RequestParam(value = "pageNum",defaultValue = "1")Integer pageNum,
                               @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize){
 
-        return RestResult.ok().setContent(blogService.articleList(categoryId,pageNum,pageSize));
+        return RestResult.ok().setContent(blogService.articleList(Long.parseLong(categoryId),pageNum,pageSize));
     }
 
     @GetMapping("/details/{id}")

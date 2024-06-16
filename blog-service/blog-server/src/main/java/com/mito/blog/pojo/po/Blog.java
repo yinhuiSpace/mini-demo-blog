@@ -106,5 +106,7 @@ public class Blog implements Serializable {
     @TableLogic
     private Integer delFlag;
 
-
+    public void setCategoryId(String categoryId) {
+        this.categoryId = Long.parseLong(categoryId);
+    }
 }

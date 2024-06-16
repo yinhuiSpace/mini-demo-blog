@@ -18,7 +18,7 @@ public interface BlogService extends IService<Blog> {
 
     List<HotArticleVo> hotArticleList();
 
-    BlogListVo articleList(Integer categoryId, Integer pageNum, Integer pageSize);
+    BlogListVo articleList(Long categoryId, Integer pageNum, Integer pageSize);
 
     BlogDetailVo articleDetail(Long id);
 

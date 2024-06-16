@@ -14,11 +14,14 @@ public class CategoryVo {
     /**
      * id
      */
-    private Long id;
+    private String id;
 
     /**
      * 分类名
      */
     private String name;
 
+    public void setId(Long id) {
+        this.id = id.toString();
+    }
 }

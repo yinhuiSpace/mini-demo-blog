@@ -2,9 +2,11 @@
 
 import {useUserStore} from "../../stores/user.ts";
 import {getAllBlogs} from "./blogs.ts";
-import {onBeforeMount, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import Page from "../../components/page/Page.vue";
 import router from "../../router";
+import axiosInstance from "../../api";
+import {ElMessage} from "element-plus";
 
 const blogs = ref([])
 
@@ -12,48 +14,49 @@ onBeforeMount(() => {
   getAllBlogs(page.value).then((resp) => {
     if (resp.data.isSuccess) {
       blogs.value = resp.data.content.rows
-      total.value=resp.data.content.total
+      total.value = resp.data.content.total
     }
   })
 })
 
-const total=ref(0)
+const total = ref(0)
 
-const page=ref({
-  pageNum:1,
-  pageSize:10
+const page = ref({
+  pageNum: 1,
+  pageSize: 10,
+  categoryId: ""
 })
-const handlePageNum=(pageNum)=>{
-  page.value.pageNum=pageNum
+const handlePageNum = (pageNum) => {
+  page.value.pageNum = pageNum
   getAllBlogs(page.value).then((resp) => {
     if (resp.data.isSuccess) {
       blogs.value = resp.data.content.rows
-      total.value=resp.data.content.total
+      total.value = resp.data.content.total
     }
   })
 }
 
-const handlePageSize=(pageSize)=>{
-  page.value.pageSize=pageSize
+const handlePageSize = (pageSize) => {
+  page.value.pageSize = pageSize
   getAllBlogs(page.value).then((resp) => {
     if (resp.data.isSuccess) {
       blogs.value = resp.data.content.rows
-      total.value=resp.data.content.total
+      total.value = resp.data.content.total
     }
   })
 }
 
-const activeTab=ref('1')
+const activeTab = ref('1')
 
-const toPerson=(id)=>{
+const toPerson = (id) => {
   router.push({
-    path:`/person/${id}`
+    path: `/person/${id}`
   })
 }
 
-const toDetail=(id)=>{
+const toDetail = (id) => {
   router.push({
-    path:`/details/${id}`
+    path: `/details/${id}`
   })
   // router.push({
   //   name:'details',
@@ -61,6 +64,59 @@ const toDetail=(id)=>{
   //     id:id
   //   }
   // })
+}
+
+const firstCategories = ref([])
+
+const getFirst = () => {
+  axiosInstance.get("/blog-service/category/getFirst")
+      .then((resp) => {
+        if (resp.data.isSuccess) {
+          firstCategories.value = resp.data.content
+          parentId.value = firstCategories.value[0].id
+          getBlogs(parentId.value)
+        } else {
+          ElMessage.error(resp.data.message)
+        }
+      })
+}
+
+onMounted(() => {
+  getFirst()
+})
+
+const parentId = ref("")
+
+const secondCategories = ref([])
+
+const getSecond = (t, e) => {
+  axiosInstance.get("/blog-service/category/getSecond", {
+    params: {
+      parentId: t.props.name
+    }
+  })
+      .then((resp) => {
+        if (resp.data.isSuccess) {
+          secondCategories.value = resp.data.content
+          getBlogs(parentId.value)
+        } else {
+          ElMessage.error(resp.data.message)
+        }
+      })
+}
+
+const getBlogs = (categoryId) => {
+  page.value.categoryId = categoryId
+  axiosInstance.get('/blog-service/article/articleList', {
+    params: page.value
+  }).then((resp) => {
+    if (resp.data.isSuccess) {
+      blogs.value = resp.data.content.rows
+      total.value = resp.data.content.total
+    } else {
+      ElMessage.error(resp.data.message)
+    }
+  })
 }
 </script>
 
@@ -72,9 +128,12 @@ const toDetail=(id)=>{
       </div>
 
       <div class="is-clearfix">
-        <el-tabs v-model="activeTab">
-          <el-tab-pane label="最新文章" name="1">
-            <article v-for="(item,index) in blogs" :key="index" class="media">
+        <el-tabs v-model="parentId" @tab-click="getSecond">
+          <el-tab-pane v-for="(item,index) in firstCategories" :key="index" :label="item.name" :name="item.id">
+            <el-tag v-for="(e,i) in secondCategories" :key="i" type="primary" closable @click="getBlogs(e.id)">
+              {{ e.name }}
+            </el-tag>
+            <article v-for="(item,index) in blogs" :key="index" class="media" style="margin-top: 20px;">
               <div class="media-left">
                 <figure class="image is-48x48">
                   <img
@@ -86,13 +145,13 @@ const toDetail=(id)=>{
               </div>
 
               <div class="media-content">
-                <div class=""  @click="toDetail(item.id)">
+                <div class="" @click="toDetail(item.id)">
                   <el-link :underline="false" class="has-ellipsis">
                     <el-tooltip class="el-form-item" effect="dark" placement="top" :content="item.title">
                       <!--                    <router-link :to="{name:'blog-detail',params:{id:item.id}}">-->
-                                            <span class="is-size-6">
-                                              {{item.title}}
-                                            </span>
+                      <span class="is-size-6">
+                                                          {{ item.title }}
+                                                        </span>
                       <!--                    </router-link>-->
                     </el-tooltip>
                   </el-link>
@@ -105,20 +164,20 @@ const toDetail=(id)=>{
                 <nav class="level has-text-grey is-mobile is-size-7 mt-2">
                   <div class="level-left">
                     <div class="level-left">
-                      <span class="mr-1">
-                        <el-link :underline="false" @click="toPerson(item.createBy)">
-                          {{item.authorName}}
-                        </el-link>
-                        发布于{{ item.createTime }}
-                      </span>
+                                  <span class="mr-1">
+                                    <el-link :underline="false" @click="toPerson(item.createBy)">
+                                      {{ item.authorName }}
+                                    </el-link>
+                                    发布于{{ item.createTime }}
+                                  </span>
 
                       <span class="tag is-hidden-mobile is-success is-light mr-1">
-                        {{item.categoryName}}
-                      </span>
+                                    {{ item.categoryName }}
+                                  </span>
 
                       <span class="is-hidden-mobile">
-                        浏览：{{item.viewCount}}
-                      </span>
+                                    浏览：{{ item.viewCount }}
+                                  </span>
                     </div>
 
 
@@ -128,6 +187,12 @@ const toDetail=(id)=>{
             </article>
           </el-tab-pane>
         </el-tabs>
+
+        <!--        <el-tabs v-model="activeTab">-->
+        <!--          <el-tab-pane label="最新文章" name="1">-->
+
+        <!--          </el-tab-pane>-->
+        <!--        </el-tabs>-->
       </div>
     </el-card>
 

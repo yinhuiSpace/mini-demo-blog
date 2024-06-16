@@ -40,8 +40,6 @@ list()
     <el-button type="primary" icon="Search" @click="list">
       搜索
     </el-button>
-
-    {{isAdd}}
     <el-button type="success" icon="CirclePlus" @click="isAdd = true">
       添加用户
     </el-button>

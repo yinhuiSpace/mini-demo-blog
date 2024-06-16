@@ -17,4 +17,10 @@ import java.util.List;
 public interface CategoryService extends IService<Category> {
 
     List<CategoryVo> getCategoryList();
+
+    List<CategoryVo> getFirst();
+
+    List<CategoryVo> getSecond(Long parentId);
+
+    List<CategoryVo> getCategories();
 }

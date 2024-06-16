@@ -29,6 +29,8 @@ public class AutoFieldFillConfig implements MetaObjectHandler {
         String userId = getUserId();
         if (userId!=null){
             setFieldValByName("updateBy",Long.parseLong(userId),metaObject);
+        }else {
+            setFieldValByName("updateBy","",metaObject);
         }
 
     }

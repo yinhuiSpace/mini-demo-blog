@@ -8,6 +8,7 @@ import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -33,6 +34,24 @@ public class CategoryController {
         List<CategoryVo> categoryVos=categoryService.getCategoryList();
 
         return RestResult.ok().setContent(categoryVos);
+    }
+
+    @GetMapping("/getFirst")
+    public Object getFirst(){
+
+        return RestResult.ok().setContent(categoryService.getFirst());
+    }
+
+    @GetMapping("/getSecond")
+    public Object getSecond(@RequestParam("parentId")String parentId){
+
+        return RestResult.ok().setContent(categoryService.getSecond(Long.parseLong(parentId)));
+    }
+
+    @GetMapping
+    public Object getCategory(){
+
+        return RestResult.ok().setContent(categoryService.getCategories());
     }
 
 }

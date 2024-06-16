@@ -80,12 +80,32 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
     @Override
-    public BlogListVo articleList(Integer categoryId, Integer pageNum, Integer pageSize) {
+    public BlogListVo articleList(Long categoryId, Integer pageNum, Integer pageSize) {
 
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+        //确认分类
+        Category category = categoryService.getById(categoryId);
+        if (Objects.nonNull(category) && category.getParentId() != 0) {
+            wrapper.eq(Blog::getCategoryId, categoryId);
+        } else if (category.getParentId() == 0) {
+            LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Category::getParentId, categoryId);
+            List<Category> categories = categoryService.list(queryWrapper);
+            List<Long> list = categories.stream().map(new Function<Category, Long>() {
+                @Override
+                public Long apply(Category category) {
+                    return category.getId();
+                }
+            }).collect(Collectors.toList());
+
+            if (list.size() > 0) {
+                wrapper.in(Blog::getCategoryId, list);
+            } else {
+                wrapper.eq(Blog::getCategoryId, categoryId);
+            }
+        }
         //正常文章，属于该分类，置顶在前
-        wrapper.eq(Objects.nonNull(categoryId) && categoryId > 0, Blog::getCategoryId, categoryId)
-                .eq(Blog::getStatus, BlogConstants.ARTICLE_STATUS_NORMAL)
+        wrapper.eq(Blog::getStatus, BlogConstants.ARTICLE_STATUS_NORMAL)
                 .orderByDesc(Blog::getIsTop);
 
         Page<Blog> page = new Page<>(pageNum, pageSize);
@@ -122,13 +142,16 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         BlogDetailVo blogDetailVo = BeanCopyUtil.copyBean(blog, BlogDetailVo.class);
 
         Category category = categoryService.getById(blog.getCategoryId());
-        if (category==null){
+        if (category == null) {
             throw new RuntimeException("分类信息错误");
         }
+
+        stringRedisTemplate.opsForHash().increment("blog:viewCount", id.toString(), 1);
 
         blogDetailVo
                 .setCategoryName(category.getName())
                 .setViewCount(getViewCount(blog.getId().toString()));
+
 
         return blogDetailVo;
     }
@@ -137,7 +160,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public void createBlog(Blog blog) {
 
         Long id = IdUtil.getSnowflake().nextId();
-        stringRedisTemplate.opsForHash().put("blog:viewCount",id.toString(),"0");
+        stringRedisTemplate.opsForHash().put("blog:viewCount", id.toString(), "0");
         blog.setId(id);
 
         save(blog);
@@ -164,7 +187,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     private Page<Blog> getBlogPage(Long pageNum, Long pageSize, String title) {
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(StringUtils.hasText(title),Blog::getTitle, title);
+        wrapper.like(StringUtils.hasText(title), Blog::getTitle, title);
 
         return page(Page.of(pageNum, pageSize), wrapper);
     }
@@ -215,16 +238,20 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             @Override
             public BlogDataVo apply(Blog blog) {
 
+                Object value = stringRedisTemplate.opsForHash().get("blog:viewCount", blog.getId().toString());
+                if(value!=null){
+                    blog.setViewCount(Long.parseLong(value.toString()));
+                }
                 return BeanCopyUtil.copyBean(blog, BlogDataVo.class);
             }
         }).collect(Collectors.toList());
     }
 
-    private Long getViewCount(String id){
+    private Long getViewCount(String id) {
 
+        //增加浏览量
         Object value = stringRedisTemplate.opsForHash().get("blog:viewCount", id);
-
-        if (Objects.nonNull(value)){
+        if(value!=null){
             return Long.parseLong(value.toString());
         }
 

@@ -67,4 +67,49 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
 
         return categoryVoList;
     }
+
+    @Override
+    public List<CategoryVo> getFirst() {
+
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Category::getParentId,0);
+
+        List<Category> categories = list(wrapper);
+
+        return categories.stream().map(new Function<Category, CategoryVo>() {
+            @Override
+            public CategoryVo apply(Category category) {
+                return BeanCopyUtil.copyBean(category, CategoryVo.class);
+            }
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CategoryVo> getSecond(Long parentId) {
+
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Category::getParentId,parentId);
+
+        return list(wrapper).stream().map(new Function<Category, CategoryVo>() {
+            @Override
+            public CategoryVo apply(Category category) {
+                return BeanCopyUtil.copyBean(category, CategoryVo.class);
+            }
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CategoryVo> getCategories() {
+
+        LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
+        wrapper.ne(Category::getParentId,0);
+
+        return list(wrapper).stream().map(new Function<Category, CategoryVo>() {
+            @Override
+            public CategoryVo apply(Category category) {
+                return BeanCopyUtil.copyBean(category,CategoryVo.class);
+            }
+        }).collect(Collectors.toList());
+
+    }
 }
