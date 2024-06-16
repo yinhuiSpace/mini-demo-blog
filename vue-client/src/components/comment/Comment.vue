@@ -5,6 +5,7 @@ import axiosInstance from "../../api";
 import {ElMessage} from "element-plus";
 import {ConfigApi, UComment, CommentApi} from "undraw-ui";
 import {useUserStore} from "../../stores/user.ts";
+import router from "../../router";
 
 
 const props = defineProps({
@@ -59,6 +60,12 @@ const onSubmit = () => {
 const commentText = ref('')
 
 const loading = ref(false)
+
+const toPerson = (id) => {
+  router.push({
+    path: `/person/${id}`
+  })
+}
 </script>
 
 <template>
@@ -105,18 +112,21 @@ const loading = ref(false)
 
   <article v-for="(item,index) in comments" :key="index" class="media">
 
-    <figure class="media-left image is-48x48">
-      <img src="https://gzbucket-1326631670.cos.ap-guangzhou.myqcloud.com/1800031117860954112.png" alt="图片">
+    <figure class="media-left">
+<!--      <img src="https://gzbucket-1326631670.cos.ap-guangzhou.myqcloud.com/1800031117860954112.png" alt="图片">-->
+      <div class="block">
+        <el-avatar @click="toPerson(item.createBy)"  fit="fill" :size="50" :src="item.avatar" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+      </div>
     </figure>
 
     <div class="media-content">
       <div class="content">
         <p>
-          <strong>
+          <strong style="cursor: pointer" @click="toPerson(item.createBy)">
             {{ item.username }}
           </strong>
           <small class="ml-2 has-text-grey is-size-7">
-            {{ item.createTimeStr }}
+            {{ item.createTime }}
           </small>
           <br/>
           {{ item.content }}

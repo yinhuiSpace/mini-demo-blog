@@ -33,8 +33,9 @@ getPerson(route.params.id)
       <div class="column is-one-quarter">
         <el-card shadow="never">
           <div class="el-header has-text-centered">
-            <img style="width: 60px;border-radius: 50%;" alt="头像"
-                 src="https://gzbucket-1326631670.cos.ap-guangzhou.myqcloud.com/1800031117860954112.png"/>
+            <div class="block">
+              <el-avatar  fit="fill" :size="60" :src="person.avatar" style="border: solid #F0F0F2 2px"/>
+            </div>
           </div>
 
           <div class="el-header has-text-centered has-text-weight-bold">
@@ -52,7 +53,7 @@ getPerson(route.params.id)
             </p>
 
             <p class="content">
-              入驻：2024-01-01 10:30:00
+              入住时间：{{person.createTime}}
             </p>
 
             <p class="content">

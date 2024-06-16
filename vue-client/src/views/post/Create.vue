@@ -5,13 +5,14 @@ import 'vditor/dist/index.css';
 import axiosInstance from "../../api";
 import {ElMessage, FormInstance} from "element-plus";
 import router from "../../router";
+import {Plus} from "@element-plus/icons-vue";
 
 const blogForm = ref({
   title: '',
   content: '',
   tags: [],
   categoryId: '',
-  thumbnail: 'http://',
+  thumbnail: '',
   summary: '',
   status: 1
 })
@@ -109,6 +110,13 @@ const rules=ref({
     {
       required:true,
       message:"文章分区不能为空",
+      trigger:"blur"
+    }
+  ],
+  thumbnail:[
+    {
+      required:true,
+      message:"文章封面不能为空",
       trigger:"blur"
     }
   ]
@@ -214,6 +222,32 @@ const options = ref([])
 const handleContent=()=>{
   blogForm.value.content=vditor.value.getValue()
 }
+
+const handleAvatarSuccess=()=>{
+  ElMessage.success("上传成功")
+}
+
+const url=ref("")
+
+const handleUpload=(item)=>{
+  loading.value=true
+  const formData = new FormData();
+  formData.append("blogImg",item.file)
+  axiosInstance.post("/blog-service/upload/img",formData)
+      .then((resp)=>{
+        if (resp.data.isSuccess){
+          blogForm.value.thumbnail=resp.data.content
+          url.value = resp.data.content;
+          ElMessage.success("上传成功")
+          loading.value=false
+        }else {
+          ElMessage.error(resp.data.message)
+          loading.value=false
+        }
+      })
+}
+
+const header=ref({ "Content-Type": "multipart/form-data" })
 </script>
 
 <template>
@@ -245,7 +279,7 @@ const handleContent=()=>{
         />
       </el-form-item>
 
-      <el-form-item prop="summary">
+      <el-form-item prop="summary" label="文章摘要">
         <el-input
             type="textarea"
             autocomplete="off"
@@ -256,11 +290,11 @@ const handleContent=()=>{
         />
       </el-form-item>
 
-      <el-form-item prop="categoryId">
+      <el-form-item prop="categoryId" label="文章分区">
         <el-select
             v-model="blogForm.categoryId"
             clearable
-            placeholder="Select"
+            placeholder="选择分区"
             style="width: 240px"
         >
           <el-option
@@ -270,6 +304,22 @@ const handleContent=()=>{
               :value="item.id"
           />
         </el-select>
+      </el-form-item>
+
+      <el-form-item prop="thumbnail" label="文章封面">
+
+        <el-upload
+            class="avatar-uploader"
+            action=""
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :http-request="handleUpload"
+            :headers="header"
+        >
+          <img v-if="url" :src="url" class="avatar" alt=""/>
+          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+        </el-upload>
+
       </el-form-item>
 
       <el-form-item>
@@ -285,6 +335,30 @@ const handleContent=()=>{
   </el-card>
 </template>
 
-<style scoped lang="less">
+<style  lang="less">
+.avatar-uploader .avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+.avatar-uploader .el-upload {
+  border: 1px dashed var(--el-border-color);
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: var(--el-transition-duration-fast);
+}
 
+.avatar-uploader .el-upload:hover {
+  border-color: var(--el-color-primary);
+}
+
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
+}
 </style>

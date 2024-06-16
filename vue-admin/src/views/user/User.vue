@@ -263,12 +263,13 @@ list()
         <el-form-item prop="avatar">
           <el-upload
               class="avatar-uploader"
-              action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+              action=""
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
+              :http-request="handleUpload"
+              :headers="header"
           >
-            <img v-if="imageUrl" :src="imageUrl" class="avatar" alt=""/>
+            <img v-if="url" :src="url" class="avatar" alt=""/>
             <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
           </el-upload>
         </el-form-item>

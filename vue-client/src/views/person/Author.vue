@@ -4,6 +4,7 @@ import {Burger} from "@element-plus/icons-vue";
 import {computed, onBeforeMount, onMounted, ref, toRef, toRefs} from "vue";
 import axiosInstance from "../../api";
 import {ElMessage} from "element-plus";
+import router from "../../router";
 
 const props = defineProps({
   id:String
@@ -68,6 +69,12 @@ const unFollow=()=>{
 const id = toRef(props,'id');
 console.log(id.value);
 getAuthor(id.value)
+
+const toPerson = (id) => {
+  router.push({
+    path: `/person/${id}`
+  })
+}
 </script>
 
 <template>
@@ -80,8 +87,11 @@ getAuthor(id.value)
     </div>
 
     <div class="has-text-centered">
+      <div class="block">
+        <el-avatar  @click="toPerson(id)"  fit="fill" :size="60" :src="author.avatar" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+      </div>
       <p class="is-size-5 mb-5">
-        <span class="is-size-7 has-text-grey">
+        <span class="is-size-7 has-text-grey" style="cursor: pointer" @click="toPerson(id)">
           {{author.nickname}}
         </span>
       </p>

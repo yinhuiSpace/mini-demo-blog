@@ -135,12 +135,10 @@ const getBlogs = (categoryId) => {
             </el-tag>
             <article v-for="(item,index) in blogs" :key="index" class="media" style="margin-top: 20px;">
               <div class="media-left">
-                <figure class="image is-48x48">
-                  <img
-                      src="https://gzbucket-1326631670.cos.ap-guangzhou.myqcloud.com/1800031117860954112.png"
-                      alt="缩略图"
-                  >
-
+                <figure class="">
+                  <div class="block">
+                    <el-avatar shape="square"  fit="fill" :size="60" :src="item.thumbnail" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+                  </div>
                 </figure>
               </div>
 

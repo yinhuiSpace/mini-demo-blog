@@ -2,10 +2,13 @@ package com.mito.user.pojo.vo;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.mito.common.utils.DateTimeClient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.sql.Timestamp;
 
 @Data
 @AllArgsConstructor
@@ -50,7 +53,18 @@ public class AuthorInfoVo {
     * */
     private boolean isFollow;
 
+    /**
+    * 创建时间
+    * */
+    private String createTime;
+
+
+
     public void setId(Long id) {
         this.id = id.toString();
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = DateTimeClient.toStr(createTime,DateTimeClient.SIMPLE_FORMAT);
     }
 }

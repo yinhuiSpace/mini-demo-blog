@@ -66,7 +66,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
         List<CommentVo> commentVos = toCommentVos(page.getRecords());
 
         for (CommentVo commentVo : commentVos) {
-            commentVo.setChildren(getChildren(commentVo.getId()));
+            commentVo.setChildren(getChildren(Long.parseLong(commentVo.getId())));
         }
 
         CommentListVo commentListVo = new CommentListVo();
@@ -168,8 +168,8 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
                 }
 
 
-                commentVo.setCreateTimeStr(DateTimeClient.toStr(comment.getCreateTime(),DateTimeClient.SIMPLE_FORMAT))
-                        .setUsername(user.getUsername());
+                commentVo.setUsername(user.getUsername())
+                        .setAvatar(user.getAvatar());
 
                 return commentVo;
             }

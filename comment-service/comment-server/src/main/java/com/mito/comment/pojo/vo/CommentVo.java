@@ -1,6 +1,7 @@
 package com.mito.comment.pojo.vo;
 
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.mito.common.utils.DateTimeClient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @Accessors(chain = true)
 public class CommentVo {
 
-    private Long id;
+    private String id;
     /**
      * 所属博客
      */
@@ -54,15 +55,32 @@ public class CommentVo {
     /**
      * 创建者
      */
-    private Long createBy;
+    private String createBy;
 
     /**
      * 创建时间
      */
-    private String createTimeStr;
+    private String createTime;
 
     /**
     * 子评论
     * */
     private List<CommentVo> children;
+
+    /**
+    * 头像
+    * */
+    private String avatar;
+
+    public void setId(Long id) {
+        this.id = id.toString();
+    }
+
+    public void setCreateBy(Long createBy) {
+        this.createBy = createBy.toString();
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = DateTimeClient.toStr(createTime,DateTimeClient.SIMPLE_FORMAT);
+    }
 }
