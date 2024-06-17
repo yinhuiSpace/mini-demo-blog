@@ -38,6 +38,26 @@ export const multiMenu=[
                 path: "/comment"
             }
         ]
+    },
+    {
+        label: "分类管理",
+        icon: "location",
+        children: [
+            {
+                label: "分类内容",
+                path: "/category"
+            }
+        ]
+    },
+    {
+        label: "公告管理",
+        icon: "location",
+        children: [
+            {
+                label: "发布公告",
+                path: "/broad"
+            }
+        ]
     }
 ]
 

@@ -52,6 +52,14 @@ const router = createRouter({
                     meta:{
                         title:'评论内容'
                     }
+                },
+                {
+                    path: 'category',
+                    name: '分类',
+                    component: () => import('../views/category/Category.vue'),
+                    meta:{
+                        title:'分类管理'
+                    }
                 }
             ]
         },
