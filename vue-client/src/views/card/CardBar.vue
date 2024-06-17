@@ -6,12 +6,12 @@ import Tip from "./Tip.vue";
 </script>
 
 <template>
-<div>
+<div style="margin-top: 10px;">
   <LoginWelcome/>
 
-  <Promotion/>
-
   <Tip/>
+
+  <Promotion/>
 </div>
 </template>
 

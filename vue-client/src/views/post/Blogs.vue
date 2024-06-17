@@ -74,7 +74,7 @@ const getFirst = () => {
         if (resp.data.isSuccess) {
           firstCategories.value = resp.data.content
           parentId.value = firstCategories.value[0].id
-          page.value.categoryId=parentId.value
+          page.value.categoryId = parentId.value
           getSecond()
           getBlogs()
         } else {
@@ -100,6 +100,7 @@ const getSecond = () => {
       .then((resp) => {
         if (resp.data.isSuccess) {
           secondCategories.value = resp.data.content
+          page.value.categoryId = parentId.value
           getBlogs()
         } else {
           ElMessage.error(resp.data.message)
@@ -123,47 +124,54 @@ const getBlogs = () => {
 </script>
 
 <template>
-  <div>
+  <div style="margin-top: 10px;">
     <el-card shadow="never">
-      <div class="el-header">
-        帖子列表
-      </div>
+      <template #header>
+        <div style="font-size: 20px">
+          首页
+        </div>
+      </template>
 
       <div class="is-clearfix">
         <el-tabs v-model="parentId" @click="getSecond">
-          <el-tab-pane v-for="(item,index) in firstCategories" :key="index" :label="item.name" :name="item.id">
+          <el-tab-pane v-for="(item,index) in firstCategories" :key="index" :label="item.name" :name="item.id"/>
+        </el-tabs>
 
-            <el-tabs v-model="page.categoryId" @click="getBlogs">
-              <el-tab-pane v-for="(e,i) in secondCategories" :key="i" :label="e.name" :name="e.id" >
-                <article v-for="(item,index) in blogs" :key="index" class="media" style="margin-top: 20px;">
-                  <div class="media-left">
-                    <figure class="">
-                      <div class="block">
-                        <el-avatar shape="square"  fit="cover" :size="60" :src="item.thumbnail" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
-                      </div>
-                    </figure>
-                  </div>
+        <el-tabs v-model="page.categoryId" @click="getBlogs">
+          <el-tab-pane v-for="(e,i) in secondCategories" :key="i" :label="e.name" :name="e.id"/>
+        </el-tabs>
 
-                  <div class="media-content">
-                    <div class="" @click="toDetail(item.id)">
-                      <el-link :underline="false" class="has-ellipsis">
-                        <el-tooltip class="el-form-item" effect="dark" placement="top" :content="item.title">
-                          <!--                    <router-link :to="{name:'blog-detail',params:{id:item.id}}">-->
-                          <span class="is-size-6">
+        <article v-if="blogs.length>0" v-for="(item,index) in blogs" :key="index" class="media"
+                 style="margin-top: 20px;">
+          <div class="media-left">
+            <figure class="">
+              <div class="block">
+                <el-avatar @click="toDetail(item.id)" shape="square" fit="cover" :size="60" :src="item.thumbnail"
+                           style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+              </div>
+            </figure>
+          </div>
+
+          <div class="media-content">
+            <div class="" @click="toDetail(item.id)">
+              <el-link :underline="false" class="has-ellipsis">
+                <el-tooltip class="el-form-item" effect="dark" placement="top" :content="item.title">
+                  <!--                    <router-link :to="{name:'blog-detail',params:{id:item.id}}">-->
+                  <span class="is-size-6">
                                                           {{ item.title }}
                                                         </span>
-                          <!--                    </router-link>-->
-                        </el-tooltip>
-                      </el-link>
+                  <!--                    </router-link>-->
+                </el-tooltip>
+              </el-link>
 
-                      <p class="has-text-grey is-size-7 mt-1">
-                        {{ item.summary }}
-                      </p>
-                    </div>
+              <p style="cursor: pointer" class="has-text-grey is-size-7 mt-1">
+                {{ item.summary }}
+              </p>
+            </div>
 
-                    <nav class="level has-text-grey is-mobile is-size-7 mt-2">
-                      <div class="level-left">
-                        <div class="level-left">
+            <nav class="level has-text-grey is-mobile is-size-7 mt-2">
+              <div class="level-left">
+                <div class="level-left">
                                   <span class="mr-1">
                                     <el-link :underline="false" @click="toPerson(item.createBy)">
                                       {{ item.authorName }}
@@ -171,31 +179,24 @@ const getBlogs = () => {
                                     发布于{{ item.createTime }}
                                   </span>
 
-                          <span class="tag is-hidden-mobile is-success is-light mr-1">
+                  <span class="tag is-hidden-mobile is-success is-light mr-1">
                                     {{ item.categoryName }}
                                   </span>
 
-                          <span class="is-hidden-mobile">
+                  <span class="is-hidden-mobile">
                                     浏览：{{ item.viewCount }}
                                   </span>
-                        </div>
+                </div>
 
 
-                      </div>
-                    </nav>
-                  </div>
-                </article>
-              </el-tab-pane>
-            </el-tabs>
+              </div>
+            </nav>
+          </div>
+        </article>
 
-          </el-tab-pane>
-        </el-tabs>
-
-        <!--        <el-tabs v-model="activeTab">-->
-        <!--          <el-tab-pane label="最新文章" name="1">-->
-
-        <!--          </el-tab-pane>-->
-        <!--        </el-tabs>-->
+        <p v-else>
+          暂时还没有文章哦~期待你的博客
+        </p>
       </div>
     </el-card>
 

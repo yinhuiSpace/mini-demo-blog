@@ -10,7 +10,8 @@ export const ruleForm = ref({
     password: '',
     checkPass: '',
     email: '',
-    phone: ''
+    phone: '未知',
+    code:''
 })
 
 const checkPass = (rule, value, callback) => {
@@ -82,6 +83,13 @@ export const formRules = ref<FormRules>({
             trigger: 'blur'
         }
     ],
+    code:[
+        {
+            required: true,
+            message: '请输入验证码',
+            trigger: 'blur'
+        }
+    ]
 })
 
 export const formInstance = ref<FormInstance>({})
@@ -104,4 +112,36 @@ export const userRegister = (formInstance) => {
 
         }
     })
+}
+
+export const codeLoading=ref(false)
+
+export const disable=ref(false)
+
+export const text=ref("获取验证码")
+
+export const duration=ref(60)
+
+export const getCheckCode=()=>{
+
+    if (ruleForm.value.email===null||ruleForm.value.email.trim().length===0){
+        ElMessage.error("请先填写邮箱")
+    }else {
+        ElMessage.success("验证码已发送，请到邮箱查看")
+        disable.value = true
+
+        const timer = setInterval(()=>{
+            duration.value--
+            const tmp =duration.value
+            text.value=`${tmp}秒`
+            if (tmp<=0){
+                clearInterval(timer)
+                duration.value=60
+                text.value="重新获取"
+                disable.value=false
+
+            }
+        },1000);
+    }
+
 }

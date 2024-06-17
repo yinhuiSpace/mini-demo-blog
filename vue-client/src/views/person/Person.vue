@@ -77,7 +77,7 @@ const update=()=>{
 </script>
 
 <template>
-  <div class="columns">
+  <div class="columns" style="margin-top: 10px;">
     <el-card class="column" style="max-width: 60vw; margin: auto; ">
       <div class="el-header has-text-centered">
         <!--        <img style="width: 60px;border-radius: 50%;" alt="头像"-->

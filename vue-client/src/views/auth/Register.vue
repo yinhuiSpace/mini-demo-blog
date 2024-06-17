@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {formRules, userRegister} from './register.ts'
+import {codeLoading, disable, formRules, getCheckCode, text, userRegister} from './register.ts'
 import {formInstance} from "./register.ts";
 import {ruleForm} from "./register.ts";
 import {loading} from "./register.ts";
@@ -30,6 +30,26 @@ import {loading} from "./register.ts";
               />
             </el-form-item>
 
+            <el-form-item label="邮箱" prop="email">
+              <el-input
+                  v-model="ruleForm.email"
+                  autocomplete="off"
+              />
+            </el-form-item>
+
+            <el-form-item label="验证码" prop="code" style="display: flex">
+              <el-input style="flex: 1;" v-model="ruleForm.code" placeholder="请输入验证码" minlength="6" maxlength="6"></el-input>
+              <el-button
+                  type="warning"
+                  :loading="codeLoading"
+                  :disabled="disable"
+                  @click="getCheckCode"
+                  style="flex: 1;margin-left: 20px"
+              >
+                {{text}}
+              </el-button>
+            </el-form-item>
+
             <el-form-item label="密码" prop="password">
               <el-input
                   v-model="ruleForm.password"
@@ -48,19 +68,12 @@ import {loading} from "./register.ts";
               />
             </el-form-item>
 
-            <el-form-item label="邮箱" prop="email">
-              <el-input
-                  v-model="ruleForm.email"
-                  autocomplete="off"
-              />
-            </el-form-item>
-
-            <el-form-item label="手机号" prop="phone">
-              <el-input
-                  v-model="ruleForm.phone"
-                  autocomplete="off"
-              />
-            </el-form-item>
+<!--            <el-form-item label="手机号" prop="phone">-->
+<!--              <el-input-->
+<!--                  v-model="ruleForm.phone"-->
+<!--                  autocomplete="off"-->
+<!--              />-->
+<!--            </el-form-item>-->
 
             <el-form-item>
               <el-button

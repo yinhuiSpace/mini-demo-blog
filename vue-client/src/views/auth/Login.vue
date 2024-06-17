@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {loginForm,formInstance,formRules,loading,login} from './login.ts'
-import {userRegister} from "./register.ts";
+import {codeLoading, disable, getCheckCode, ruleForm, text, userRegister} from "./register.ts";
 </script>
 
 <template>
@@ -35,6 +35,11 @@ import {userRegister} from "./register.ts";
               show-password
               autocomplete="off"
           />
+        </el-form-item>
+
+        <el-form-item label="验证码" prop="code" style="display: flex">
+          <el-input style="flex: 1;" v-model="loginForm.code" placeholder="请输入验证码" minlength="6" maxlength="6"></el-input>
+          <img style="flex:1;margin-left: 20px;" alt=""/>
         </el-form-item>
 
         <el-form-item>

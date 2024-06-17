@@ -18,9 +18,9 @@ onBeforeMount(()=>{
 
 <template>
 <div>
-  <div class="box">
-    {{billBoard.content}}
-  </div>
+<!--  <div class="box">-->
+<!--    {{billBoard.content}}-->
+<!--  </div>-->
 
   <div class="columns">
     <div class="column is-three-quarters">

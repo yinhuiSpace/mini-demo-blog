@@ -59,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="columns">
+  <div class="columns" style="margin-top: 10px;">
     <div class="column is-three-quarters">
       <el-card class="box" shadow="never">
         <div class="el-header has-text-centered">

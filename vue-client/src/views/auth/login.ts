@@ -6,7 +6,8 @@ import router from "../../router";
 
 export const loginForm=ref({
     username:'',
-    password:''
+    password:'',
+    code:''
 })
 
 export const formRules=ref<FormRules>({
@@ -22,6 +23,13 @@ export const formRules=ref<FormRules>({
             required:true,
             message:'请填写密码',
             trigger:'change'
+        }
+    ],
+    code:[
+        {
+            required:true,
+            message:'验证码不能为空',
+            trigger:'blur'
         }
     ]
 })

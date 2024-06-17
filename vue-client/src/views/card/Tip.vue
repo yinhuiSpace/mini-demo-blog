@@ -17,9 +17,11 @@ onBeforeMount(()=>{
 
 <template>
   <el-card class="box-card" shadow="never">
-    <div class="el-header">
-      <span>每日一句</span>
-    </div>
+    <template #header>
+      <div style="font-size: 20px">
+        社区寄语
+      </div>
+    </template>
     <div >
       <div class="has-text-left block">
         {{tip.content}}

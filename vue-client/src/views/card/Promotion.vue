@@ -13,14 +13,14 @@ onBeforeMount(()=>{
 
 <template>
   <el-card class="box-card" shadow="never">
-    <div class="el-header">
-      <span>推广</span>
-    </div>
-    <div>
-      <p v-for="(item,index) in promotions" :key="index" class="block">
-        <a :href="item.address" target="_blank">{{item.name}}</a>
-      </p>
-    </div>
+    <template #header>
+      <div style="font-size: 20px">
+        友链
+      </div>
+    </template>
+    <li v-for="(item,index) in promotions" :key="index" class="block">
+      <a :href="item.address" target="_blank">{{item.name}}</a>
+    </li>
   </el-card>
 </template>
 

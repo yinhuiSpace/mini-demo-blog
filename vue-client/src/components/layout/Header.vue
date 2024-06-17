@@ -7,6 +7,7 @@ import {ElMessage} from "element-plus";
 import {useThemeStore} from "../../stores/theme.ts";
 import {useToggle} from "@vueuse/shared";
 import router from "../../router";
+import {ArrowDown} from "@element-plus/icons-vue";
 
 
 const change = (value) => {
@@ -26,15 +27,19 @@ const logout = () => {
 const toPerson = () => {
   router.push({path:`/me`})
 }
+
+const search=ref("")
 </script>
 
 <template>
-  <b-navbar :fixed-top="true">
+  <b-navbar :fixed-top="true" style="height: 65px;box-shadow: 2px 0 6px rgba(0, 21, 41, .35);">
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
-            src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"
+            src="../../assets/logo.png"
             alt="图标"
+            style="height: 65px;"
+            height="512"
         >
       </b-navbar-item>
     </template>
@@ -52,50 +57,71 @@ const toPerson = () => {
     <template #end>
       <b-navbar-item>
         <b-field>
-          <b-autocomplete
-              rounded
-              :data="['jQuery', 'Vue', 'React']"
-              placeholder="搜索内容"
-              icon="magnify"
-              clearable
-              @keyup.enter.native=""
-              @select="">
-            <template #empty>搜索内容</template>
-          </b-autocomplete>
+          <el-input
+              style="width: 300px"
+              placeholder="搜索文章或资源"
+              prefix-icon="Search"
+              v-model="search"
+          />
         </b-field>
       </b-navbar-item>
-      <b-navbar-item tag="div">
-        <el-switch
-            v-model="useThemeStore().isDark"
-            inline-prompt
-            active-text="黑夜"
-            size="small"
-            inactive-text="白天"
-            @change="toggle"
-        />
+      <b-navbar-item>
+        <div class="block">
+          <el-avatar fit="cover" :size="40"
+                     :src="useUserStore().userInfo.avatar"
+                     style="border: solid #F0F0F2 2px" @click="toPerson"/>
+        </div>
+<!--        <el-switch-->
+<!--            v-model="useThemeStore().isDark"-->
+<!--            inline-prompt-->
+<!--            active-text="黑夜"-->
+<!--            size="small"-->
+<!--            inactive-text="白天"-->
+<!--            @change="toggle"-->
+<!--        />-->
       </b-navbar-item>
 
-      <b-navbar-dropdown
-          v-if="useUserStore().token!=null&&useUserStore().token.trim().length>0"
-          :label="useUserStore().userInfo.username"
-          class="mr-6"
-      >
-        <b-navbar-item @click="toPerson">
-          个人中心
-        </b-navbar-item>
-        <b-navbar-item @click="logout">
-          退出登录
-        </b-navbar-item>
-      </b-navbar-dropdown>
+      <b-navbar-item v-if="useUserStore().isLogin()">
+        <el-dropdown>
+        <span class="el-dropdown-link">
+          {{useUserStore().userInfo.username}}
+          <el-icon class="el-icon--right">
+            <arrow-down />
+          </el-icon>
+        </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item icon="Plus" @click="toPerson">个人中心</el-dropdown-item>
+              <el-dropdown-item icon="CirclePlusFilled" @click="logout">
+                退出登录
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </b-navbar-item>
+
+
+<!--      <b-navbar-dropdown-->
+<!--          v-if="useUserStore().token!=null&&useUserStore().token.trim().length>0"-->
+<!--          :label="useUserStore().userInfo.username"-->
+<!--          class="mr-6"-->
+<!--      >-->
+<!--        <b-navbar-item @click="toPerson">-->
+<!--          个人中心-->
+<!--        </b-navbar-item>-->
+<!--        <b-navbar-item @click="logout">-->
+<!--          退出登录-->
+<!--        </b-navbar-item>-->
+<!--      </b-navbar-dropdown>-->
 
       <b-navbar-item v-else tag="div">
-        <b-button tag="router-link" :to="{path:'/register'}" class="is-primary">
-          <strong>注册</strong>
-        </b-button>
+        <router-link to="/register">
+          <el-button type="danger" plain icon="edit">注册</el-button>
+        </router-link>
 
-        <b-button tag="router-link" :to="{path:'/login'}" class="ml-2 is-light">
-          登录
-        </b-button>
+        <router-link to="/login">
+          <el-button type="success" plain style="margin-left: 10px;" icon="user">登录</el-button>
+        </router-link>
       </b-navbar-item>
     </template>
   </b-navbar>

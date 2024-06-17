@@ -5,23 +5,29 @@ import {useUserStore} from "../../stores/user.ts";
 
 <template>
 <el-card class="box-card" shadow="never">
-  <div slot="header" class="el-header">
-    <span>发帖</span>
-  </div>
+  <template #header>
+    <div style="font-size: 20px">
+      发文
+    </div>
+  </template>
   <div v-if="useUserStore().token!=null&&useUserStore().token.trim().length>0" class="has-text-centered">
-    <b-button type="is-danger" tag="router-link" :to="{path:'/createBlog'}" outlined>
-      发布文章
-    </b-button>
+<!--    <b-button type="is-danger" tag="router-link" :to="{path:'/createBlog'}" outlined>-->
+<!--      发布文章-->
+<!--    </b-button>-->
+
+    <router-link to="/createBlog">
+      <el-button type="primary" plain icon="circlePlus">发布文章</el-button>
+    </router-link>
   </div>
 
   <div v-else class="has-text-centered">
-    <b-button type="is-primary" tag="router-link" :to="{path:'/register'}" outlined>
-      立即注册
-    </b-button>
+    <router-link to="/register">
+      <el-button type="danger" plain>注册</el-button>
+    </router-link>
 
-    <b-button type="is-danger" tag="router-link" :to="{path:'/login'}" outlined class="ml-2">
-      登录
-    </b-button>
+    <router-link to="/login">
+      <el-button type="success" plain style="margin-left: 10px;">登录</el-button>
+    </router-link>
   </div>
 </el-card>
 </template>

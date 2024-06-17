@@ -94,11 +94,16 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public List<CategoryVo> getSecond(Long parentId) {
 
         LambdaQueryWrapper<Category> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Category::getParentId, parentId);
+        wrapper.eq(Category::getParentId, parentId)
+                .or()
+                .eq(Category::getId,parentId);
 
         return list(wrapper).stream().map(new Function<Category, CategoryVo>() {
             @Override
             public CategoryVo apply(Category category) {
+                if (category.getParentId()==0){
+                    category.setName("全部");
+                }
                 return BeanCopyUtil.copyBean(category, CategoryVo.class);
             }
         }).collect(Collectors.toList());
