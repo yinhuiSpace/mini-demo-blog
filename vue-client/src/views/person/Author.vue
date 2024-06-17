@@ -88,7 +88,7 @@ const toPerson = (id) => {
 
     <div class="has-text-centered">
       <div class="block">
-        <el-avatar  @click="toPerson(id)"  fit="fill" :size="60" :src="author.avatar" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+        <el-avatar  @click="toPerson(id)"  fit="cover" :size="60" :src="author.avatar" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
       </div>
       <p class="is-size-5 mb-5">
         <span class="is-size-7 has-text-grey" style="cursor: pointer" @click="toPerson(id)">

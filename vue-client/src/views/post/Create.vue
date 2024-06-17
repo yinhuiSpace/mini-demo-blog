@@ -46,7 +46,6 @@ const submit = (form) => {
   form.validate((valid)=>{
     if (valid){
       loading.value = true
-      blogForm.value.status=0
       axiosInstance.post('/blog-service/article', blogForm.value)
           .then((resp) => {
             if (resp.data.isSuccess) {

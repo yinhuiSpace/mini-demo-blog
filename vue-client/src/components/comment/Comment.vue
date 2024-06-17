@@ -115,7 +115,7 @@ const toPerson = (id) => {
     <figure class="media-left">
 <!--      <img src="https://gzbucket-1326631670.cos.ap-guangzhou.myqcloud.com/1800031117860954112.png" alt="图片">-->
       <div class="block">
-        <el-avatar @click="toPerson(item.createBy)"  fit="fill" :size="50" :src="item.avatar" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+        <el-avatar @click="toPerson(item.createBy)"  fit="cover" :size="50" :src="item.avatar" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
       </div>
     </figure>
 

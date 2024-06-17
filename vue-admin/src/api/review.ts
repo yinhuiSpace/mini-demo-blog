@@ -92,6 +92,7 @@ export const updateById=()=>{
             if (resp.data.isSuccess) {
                 loading.value = false
                 ElMessage.success("修改成功")
+                isUpdate.value=false
             } else {
                 ElMessage.error(resp.data.message)
                 loading.value = false

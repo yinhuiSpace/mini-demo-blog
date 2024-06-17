@@ -34,7 +34,7 @@ getPerson(route.params.id)
         <el-card shadow="never">
           <div class="el-header has-text-centered">
             <div class="block">
-              <el-avatar  fit="fill" :size="60" :src="person.avatar" style="border: solid #F0F0F2 2px"/>
+              <el-avatar  fit="cover" :size="60" :src="person.avatar" style="border: solid #F0F0F2 2px"/>
             </div>
           </div>
 

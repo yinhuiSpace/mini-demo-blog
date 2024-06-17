@@ -84,7 +84,7 @@ const update=()=>{
         <!--             src="https://gzbucket-1326631670.cos.ap-guangzhou.myqcloud.com/1800031117860954112.png"/>-->
 
         <div class="block">
-          <el-avatar fit="fill" :size="60"
+          <el-avatar fit="cover" :size="60"
                      :src="person.avatar"
                      style="border: solid #F0F0F2 2px"/>
         </div>

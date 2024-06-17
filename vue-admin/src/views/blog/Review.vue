@@ -55,6 +55,12 @@ const handlePageSize=(pageSize)=>{
             <el-switch v-model="scope.row.isComment" active-value="1" inactive-value="0"/>
           </div>
 
+          <div v-else-if="item.prop === 'thumbnail'">
+            <div class="block">
+              <el-avatar shape="square"  fit="cover" :size="60" :src="scope.row.thumbnail" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+            </div>
+          </div>
+
           <div v-else-if="item.prop === 'gender'">
             <span>{{scope.row.gender === '0'?'男':'女'}}</span>
           </div>
@@ -101,9 +107,9 @@ const handlePageSize=(pageSize)=>{
           </el-form-item>
 
           <el-form-item prop="thumbnail" label="缩略图：">
-            <p>
-              {{blog.thumbnail}}
-            </p>
+            <div class="block">
+              <el-avatar shape="square"  fit="cover" :size="60" :src="blog.thumbnail" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+            </div>
           </el-form-item>
 
           <el-form-item prop="createBy" label="创建人：">

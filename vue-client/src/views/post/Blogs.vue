@@ -74,7 +74,9 @@ const getFirst = () => {
         if (resp.data.isSuccess) {
           firstCategories.value = resp.data.content
           parentId.value = firstCategories.value[0].id
-          getBlogs(parentId.value)
+          page.value.categoryId=parentId.value
+          getSecond()
+          getBlogs()
         } else {
           ElMessage.error(resp.data.message)
         }
@@ -89,24 +91,24 @@ const parentId = ref("")
 
 const secondCategories = ref([])
 
-const getSecond = (t, e) => {
+const getSecond = () => {
   axiosInstance.get("/blog-service/category/getSecond", {
     params: {
-      parentId: t.props.name
+      parentId: parentId.value
     }
   })
       .then((resp) => {
         if (resp.data.isSuccess) {
           secondCategories.value = resp.data.content
-          getBlogs(parentId.value)
+          getBlogs()
         } else {
           ElMessage.error(resp.data.message)
         }
       })
 }
 
-const getBlogs = (categoryId) => {
-  page.value.categoryId = categoryId
+
+const getBlogs = () => {
   axiosInstance.get('/blog-service/article/articleList', {
     params: page.value
   }).then((resp) => {
@@ -128,40 +130,40 @@ const getBlogs = (categoryId) => {
       </div>
 
       <div class="is-clearfix">
-        <el-tabs v-model="parentId" @tab-click="getSecond">
+        <el-tabs v-model="parentId" @click="getSecond">
           <el-tab-pane v-for="(item,index) in firstCategories" :key="index" :label="item.name" :name="item.id">
-            <el-tag v-for="(e,i) in secondCategories" :key="i" type="primary" closable @click="getBlogs(e.id)">
-              {{ e.name }}
-            </el-tag>
-            <article v-for="(item,index) in blogs" :key="index" class="media" style="margin-top: 20px;">
-              <div class="media-left">
-                <figure class="">
-                  <div class="block">
-                    <el-avatar shape="square"  fit="fill" :size="60" :src="item.thumbnail" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
-                  </div>
-                </figure>
-              </div>
 
-              <div class="media-content">
-                <div class="" @click="toDetail(item.id)">
-                  <el-link :underline="false" class="has-ellipsis">
-                    <el-tooltip class="el-form-item" effect="dark" placement="top" :content="item.title">
-                      <!--                    <router-link :to="{name:'blog-detail',params:{id:item.id}}">-->
-                      <span class="is-size-6">
+            <el-tabs v-model="page.categoryId" @click="getBlogs">
+              <el-tab-pane v-for="(e,i) in secondCategories" :key="i" :label="e.name" :name="e.id" >
+                <article v-for="(item,index) in blogs" :key="index" class="media" style="margin-top: 20px;">
+                  <div class="media-left">
+                    <figure class="">
+                      <div class="block">
+                        <el-avatar shape="square"  fit="cover" :size="60" :src="item.thumbnail" style="border: solid #F0F0F2 2px;cursor:pointer;"/>
+                      </div>
+                    </figure>
+                  </div>
+
+                  <div class="media-content">
+                    <div class="" @click="toDetail(item.id)">
+                      <el-link :underline="false" class="has-ellipsis">
+                        <el-tooltip class="el-form-item" effect="dark" placement="top" :content="item.title">
+                          <!--                    <router-link :to="{name:'blog-detail',params:{id:item.id}}">-->
+                          <span class="is-size-6">
                                                           {{ item.title }}
                                                         </span>
-                      <!--                    </router-link>-->
-                    </el-tooltip>
-                  </el-link>
+                          <!--                    </router-link>-->
+                        </el-tooltip>
+                      </el-link>
 
-                  <p class="has-text-grey is-size-7 mt-1">
-                    {{ item.summary }}
-                  </p>
-                </div>
+                      <p class="has-text-grey is-size-7 mt-1">
+                        {{ item.summary }}
+                      </p>
+                    </div>
 
-                <nav class="level has-text-grey is-mobile is-size-7 mt-2">
-                  <div class="level-left">
-                    <div class="level-left">
+                    <nav class="level has-text-grey is-mobile is-size-7 mt-2">
+                      <div class="level-left">
+                        <div class="level-left">
                                   <span class="mr-1">
                                     <el-link :underline="false" @click="toPerson(item.createBy)">
                                       {{ item.authorName }}
@@ -169,20 +171,23 @@ const getBlogs = (categoryId) => {
                                     发布于{{ item.createTime }}
                                   </span>
 
-                      <span class="tag is-hidden-mobile is-success is-light mr-1">
+                          <span class="tag is-hidden-mobile is-success is-light mr-1">
                                     {{ item.categoryName }}
                                   </span>
 
-                      <span class="is-hidden-mobile">
+                          <span class="is-hidden-mobile">
                                     浏览：{{ item.viewCount }}
                                   </span>
-                    </div>
+                        </div>
 
 
+                      </div>
+                    </nav>
                   </div>
-                </nav>
-              </div>
-            </article>
+                </article>
+              </el-tab-pane>
+            </el-tabs>
+
           </el-tab-pane>
         </el-tabs>
 
