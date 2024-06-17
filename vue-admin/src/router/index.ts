@@ -60,6 +60,14 @@ const router = createRouter({
                     meta:{
                         title:'分类管理'
                     }
+                },
+                {
+                    path: 'board',
+                    name: '公告管理',
+                    component: () => import('../views/board/Board.vue'),
+                    meta:{
+                        title:'公告管理'
+                    }
                 }
             ]
         },

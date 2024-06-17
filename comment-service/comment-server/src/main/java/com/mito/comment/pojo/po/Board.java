@@ -2,6 +2,7 @@ package com.mito.comment.pojo.po;
 
 import com.baomidou.mybatisplus.annotation.*;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.io.Serializable;
 import lombok.Data;
@@ -40,7 +41,7 @@ public class Board implements Serializable {
      * 创建时间
      */
     @TableField(value = "create_time",fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private Timestamp createTime;
 
     /**
      * 创建人
@@ -52,7 +53,7 @@ public class Board implements Serializable {
      * 更新时间
      */
     @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private Timestamp updateTime;
 
     /**
      * 更新人

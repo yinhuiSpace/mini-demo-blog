@@ -55,7 +55,7 @@ export const multiMenu=[
         children: [
             {
                 label: "发布公告",
-                path: "/broad"
+                path: "/board"
             }
         ]
     }

@@ -13,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BoardService extends IService<Board> {
 
+    void add(Board board);
 }
