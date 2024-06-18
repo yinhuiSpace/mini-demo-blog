@@ -12,19 +12,23 @@ public enum RestResultEnum {
     PHONE_NUMBER_EXIST(502, "手机号已存在"),
     REQUIRE_USERNAME(503, "必须填写用户名"),
     LOGIN_ERROR(504, "用户名或密码错误"),
-    EMAIL_EXIST(505,"邮箱已存在"),
+    EMAIL_EXIST(505, "邮箱已存在"),
 
-    UPLOAD_ERROR(506,"图片上传失败"),
-    FILE_SIZE_EXCEED_LIMIT(507,"文件大小超过限制"),
-    FILE_TYPE_ILLEGAL(508,"不支持该文件类型"),
+    UPLOAD_ERROR(506, "图片上传失败"),
+    FILE_SIZE_EXCEED_LIMIT(507, "文件大小超过限制"),
+    FILE_TYPE_ILLEGAL(508, "不支持该文件类型"),
 
-    CAN_NOT_FOLLOW(509,"暂时无法关注该作者"),
+    CAN_NOT_FOLLOW(509, "暂时无法关注该作者"),
 
-    CAN_NOT_REPEAT_FOLLOW(510,"不能重复关注"),
+    CAN_NOT_REPEAT_FOLLOW(510, "不能重复关注"),
 
-    CAN_NOT_SELF_FOLLOW(511,"不能关注自己"),
+    CAN_NOT_SELF_FOLLOW(511, "不能关注自己"),
 
-    ACCOUNT_EXISTS(512,"该账号已存在");
+    ACCOUNT_EXISTS(512, "该账号已存在"),
+
+    VERIFY_CODE(513, "验证码错误"),
+
+    VERIFY_CODE_EXPIRATION(514,"验证码过期");
 
     Integer code;
 

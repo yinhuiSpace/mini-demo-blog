@@ -38,7 +38,7 @@ const search=ref("")
         <img
             src="../../assets/logo.png"
             alt="图标"
-            style="height: 65px;"
+            style="height: 65px;object-fit: fill"
             height="512"
         >
       </b-navbar-item>
@@ -65,7 +65,7 @@ const search=ref("")
           />
         </b-field>
       </b-navbar-item>
-      <b-navbar-item>
+      <b-navbar-item v-if="useUserStore().isLogin()">
         <div class="block">
           <el-avatar fit="cover" :size="40"
                      :src="useUserStore().userInfo.avatar"

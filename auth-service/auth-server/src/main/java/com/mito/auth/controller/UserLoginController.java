@@ -8,6 +8,7 @@ import com.mito.auth.service.UserLoginService;
 import com.mito.common.enums.RestResultEnum;
 import com.mito.common.result.RestResult;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,6 +45,12 @@ public class UserLoginController {
             throw new SystemException(RestResultEnum.LOGIN_ERROR);
         }
         return RestResult.ok().setContent(userLoginService.login(userLoginDto));
+    }
+
+    @PostMapping("/verifyCode")
+    public void verifyCode(HttpServletResponse response,@RequestBody UserLoginDto userLoginDto)throws Exception{
+
+        userLoginService.verifyCode(response,userLoginDto);
     }
 
 }
