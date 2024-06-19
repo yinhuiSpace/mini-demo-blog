@@ -34,3 +34,9 @@ spring:
         file-extension: yml
       discovery:
         server-addr: nacos:8848
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    virtual-host: /
+    username: rabbit
+    password: 123456

@@ -2,23 +2,23 @@ package com.mito.user.service.impl;
 
 import cn.hutool.core.util.IdUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.mito.common.enums.RestResultEnum;
 import com.mito.common.utils.BeanCopyUtil;
+import com.mito.user.constants.RegisterConstants;
 import com.mito.user.constants.TypeConstants;
 import com.mito.user.exceptions.UserException;
+import com.mito.user.mapper.UserMapper;
 import com.mito.user.pojo.dto.UserRegister;
 import com.mito.user.pojo.dto.UserUpdateDTO;
 import com.mito.user.pojo.po.User;
-import com.mito.user.mapper.UserMapper;
 import com.mito.user.pojo.vo.UserInfoListVo;
 import com.mito.user.pojo.vo.UserInfoVo;
 import com.mito.user.service.UserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import jakarta.annotation.Resource;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -40,6 +40,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Resource
     PasswordEncoder passwordEncoder;
+
+    @Resource
+    StringRedisTemplate stringRedisTemplate;
 
     @Override
     public UserInfoVo userInfo(long id) {
@@ -154,6 +157,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new UserException(RestResultEnum.PHONE_NUMBER_EXIST);
         }
 
+        String verifyCode = stringRedisTemplate.opsForValue().get(RegisterConstants.REGISTER_VERIFY_CODE + userRegister.getEmail());
+
+        if (verifyCode==null){
+            throw new UserException(RestResultEnum.VERIFY_CODE_EXPIRATION);
+        }
+
+        if (!verifyCode.equalsIgnoreCase(userRegister.getVerifyCode())){
+            throw new UserException(RestResultEnum.VERIFY_CODE);
+        }
     }
 
     private boolean isExists(SFunction<User, ?> column, Object val) {

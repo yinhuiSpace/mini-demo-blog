@@ -26,6 +26,7 @@
         <module>user-service/user-client</module>
         <module>common/common-log</module>
         <module>common/common-oss</module>
+        <module>resource-service</module>
     </modules>
 
     <properties>

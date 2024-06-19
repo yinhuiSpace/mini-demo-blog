@@ -54,4 +54,8 @@ public class UserRegister {
      * 头像
      */
     private String avatar;
+
+    //验证码
+    @NotBlank(message = "验证码不能为空")
+    private String verifyCode;
 }
