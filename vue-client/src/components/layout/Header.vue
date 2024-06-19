@@ -36,7 +36,7 @@ const search=ref("")
     <template #brand>
       <b-navbar-item tag="router-link" :to="{ path: '/' }">
         <img
-            src="../../assets/logo.png"
+            src="../../assets/image.png"
             alt="图标"
             style="height: 65px;object-fit: fill"
             height="512"
