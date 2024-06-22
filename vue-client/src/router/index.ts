@@ -57,7 +57,7 @@ const router = createRouter({
             name:'person',
             component:()=>import('../views/person/Profile.vue'),
             meta:{
-                title:'个人中心'
+                title:'作者'
             }
         },
         {
@@ -81,9 +81,7 @@ router.beforeEach((to, from, next)=>{
             next()
         }
     }
-
     next()
-
 })
 
 export default router

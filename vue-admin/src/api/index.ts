@@ -3,7 +3,7 @@ import router from "../router";
 import {useUserStore} from "../stores/user.ts";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:15000'
+    baseURL: '/api'
 });
 
 axiosInstance.interceptors.request.use((requestConfig) => {

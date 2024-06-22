@@ -1,0 +1,1 @@
+import{D as t,r}from"./index-DhBAbreQ.js";const u=t("userStore",()=>{const e=r(""),o=r({});return{token:e,userInfo:o,removeLogin:()=>{e.value="",o.value={}},isLogin:()=>e.value!=null&&e.value.trim().length>0}},{persist:{enabled:!0,strategies:[{storage:localStorage,paths:["token","userInfo"]}]}});export{u};

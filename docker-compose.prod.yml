@@ -45,7 +45,7 @@ services:
       - default
       - mynetwork
   resource:
-    build: resource-service/resource-mail
+    build: ./resource-service/resource-mail
     container_name: resource-service
     ports:
       - "15500:15500"

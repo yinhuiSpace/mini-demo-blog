@@ -4,17 +4,9 @@ import {useUserStore} from "../../stores/user.ts";
 import {ref} from "vue";
 import axiosInstance from "../../api";
 import {ElMessage} from "element-plus";
-import {useThemeStore} from "../../stores/theme.ts";
-import {useToggle} from "@vueuse/shared";
 import router from "../../router";
 import {ArrowDown} from "@element-plus/icons-vue";
 
-
-const change = (value) => {
-  console.log(value);
-}
-
-const toggle = useToggle(useThemeStore().isDark);
 
 const logout = () => {
   axiosInstance.post('/auth-service/auth/logout')
