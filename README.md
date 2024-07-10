@@ -30,6 +30,8 @@
 
 ![image](https://github.com/yinhuiSpace/mini-demo-blog/assets/156671079/785377d4-daa7-418b-9980-2724631d2363)
 
-支持我：
+## 支持我
 
 如果你想要赞赏我的话，在此表示感谢^_^
+
+![](https://raw.githubusercontent.com/yinhuiSpace/picgoimg/main/img/202407100825878.jpg)
